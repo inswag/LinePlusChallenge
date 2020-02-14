@@ -9,8 +9,9 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
-        // MARK:- Initialize
-
+    
+    // MARK:- Initialize
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUIComponents()
@@ -24,7 +25,7 @@ class TableViewCell: UITableViewCell {
     func setupUIComponents() {
         
     }
-        
+    
     func setupUILayout() {
         
     }

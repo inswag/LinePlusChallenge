@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUIComponents()
+        setupUILayout()
     }
     
     // MARK:- UI Methods
@@ -35,6 +36,10 @@ class ViewController: UIViewController {
         
     }
 
+    func setupUILayout() {
+        
+    }
+    
     deinit {
         print("ok")
     }

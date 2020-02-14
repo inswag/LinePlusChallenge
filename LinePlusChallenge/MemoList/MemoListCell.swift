@@ -37,14 +37,6 @@ class MemoListCell: TableViewCell {
         return label
     }()
     
-    let borderView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.lightGray
-        return view
-    }()
-    
-    //    let stackView = UIStackView(arrangedSubviews: [self.titleLabel, self.contentLabel])
-    
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.titleLabel,
                                                        self.contentLabel])
@@ -52,6 +44,12 @@ class MemoListCell: TableViewCell {
         stackView.alignment = .leading
         stackView.spacing = 8
         return stackView
+    }()
+    
+    let borderView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        return view
     }()
     
     // MARK:- Initialize
@@ -67,7 +65,6 @@ class MemoListCell: TableViewCell {
     // MARK:- Methods
     
     internal override func setupUIComponents() {
-        
         [photoImageView, stackView, borderView].forEach {
             self.contentView.addSubview($0)
         }

@@ -17,7 +17,7 @@ class Navigator {
     func get(segue: Scene) -> UIViewController {
         switch segue {
         case .memoList:
-            let memoListVC = MemoListViewController()
+            let memoListVC = NavigationController(rootViewController: MemoListViewController())
             return memoListVC
         }
     }

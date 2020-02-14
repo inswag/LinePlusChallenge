@@ -13,15 +13,18 @@ final class Application: NSObject {
     static let shared = Application()
     
     var window: UIWindow?
+    var navigator: Navigator
     
     private override init() {
+        self.navigator = Navigator()
         super.init()
     }
     
     func presentInitialScreen(in window: UIWindow) {
         self.window = window
         
-        window.rootViewController = UINavigationController(rootViewController: MemoListViewController())
+        window.rootViewController = navigator.get(segue: .memoList
+        )
         
     }
 }
