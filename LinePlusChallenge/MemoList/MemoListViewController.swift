@@ -70,7 +70,7 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 124
     }
     
 }

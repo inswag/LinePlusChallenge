@@ -14,20 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK:- App Execution Cycle
     
-    var window: UIWindow?
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        self.window = window
         window.makeKeyAndVisible()
         
-        window.rootViewController = MemoListViewController()
-        
-        
-        
-        
+        Application.shared.presentInitialScreen(in: window)
         return true
     }
 

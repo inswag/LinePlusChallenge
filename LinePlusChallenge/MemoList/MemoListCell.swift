@@ -96,8 +96,6 @@ class MemoListCell: TableViewCell {
             $0.height.equalTo(2)
         }
         
-        
-        
     }
     
 }
