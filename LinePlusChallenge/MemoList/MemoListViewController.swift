@@ -12,7 +12,7 @@ class MemoListViewController: ViewController {
     
     // MARK:- Properties
     
-    
+    let navigator: Navigator
     
     // MARK:- UI Properties
     
@@ -38,11 +38,27 @@ class MemoListViewController: ViewController {
     }()
 
     
-    lazy var newMemoButton = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(actionNewMemo))
+    lazy var newMemoButton = UIBarButtonItem(title: "New",
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(actionNewMemo))
     
     @objc func actionNewMemo() {
-//        self.navigationController?.pushViewController((), animated: true)
+        self.navigationController?.pushViewController(navigator.get(segue: .memoAdd), animated: true)
     }
+    
+    // MARK:- Initialize
+    
+    init(navigator: Navigator) {
+        self.navigator = navigator
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     // MARK:- View Life Cycle
     

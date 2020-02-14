@@ -18,6 +18,7 @@
 		E6B0567223F6819F00825D8A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B0567123F6819F00825D8A /* Application.swift */; };
 		E6B0567423F6836D00825D8A /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B0567323F6836D00825D8A /* Navigator.swift */; };
 		E6B0567623F6847200825D8A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B0567523F6847200825D8A /* NavigationController.swift */; };
+		E6B0567923F6964C00825D8A /* MemoAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B0567823F6964C00825D8A /* MemoAddViewController.swift */; };
 		E6FD33F523F66A19008DD912 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FD33F423F66A19008DD912 /* MemoListViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		E6B0567123F6819F00825D8A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		E6B0567323F6836D00825D8A /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		E6B0567523F6847200825D8A /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		E6B0567823F6964C00825D8A /* MemoAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewController.swift; sourceTree = "<group>"; };
 		E6FD33F423F66A19008DD912 /* MemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 				E6B0566F23F6779A00825D8A /* Core */,
 				E6B0567023F677A200825D8A /* Base */,
 				E6B0566E23F6778500825D8A /* MemoList */,
+				E6B0567723F6961F00825D8A /* MemoAdd */,
 				E68949C323F5168C009C2D8A /* Assets.xcassets */,
 				E68949C523F5168C009C2D8A /* LaunchScreen.storyboard */,
 				E68949C823F5168C009C2D8A /* Info.plist */,
@@ -128,6 +131,14 @@
 				E6B0566C23F66CD600825D8A /* TableViewCell.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		E6B0567723F6961F00825D8A /* MemoAdd */ = {
+			isa = PBXGroup;
+			children = (
+				E6B0567823F6964C00825D8A /* MemoAddViewController.swift */,
+			);
+			path = MemoAdd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,6 +259,7 @@
 				E6B0567223F6819F00825D8A /* Application.swift in Sources */,
 				E68949BC23F5168B009C2D8A /* ViewController.swift in Sources */,
 				E6B0566B23F66CB500825D8A /* MemoListCell.swift in Sources */,
+				E6B0567923F6964C00825D8A /* MemoAddViewController.swift in Sources */,
 				E6B0567623F6847200825D8A /* NavigationController.swift in Sources */,
 				E6B0566D23F66CD600825D8A /* TableViewCell.swift in Sources */,
 				E6B0567423F6836D00825D8A /* Navigator.swift in Sources */,
