@@ -55,7 +55,7 @@ class MemoListCell: TableViewCell {
     // MARK:- Initialize
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: String(describing: MemoListViewController.self))
+        super.init(style: .default, reuseIdentifier: String(describing: MemoListController.self))
     }
     
     required init?(coder: NSCoder) {

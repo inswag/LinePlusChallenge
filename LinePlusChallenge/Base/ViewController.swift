@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SnapKit
+import SnapKit // 앱의 레이아웃을 구현하기 위해 사용합니다.
 
 class ViewController: UIViewController {
     

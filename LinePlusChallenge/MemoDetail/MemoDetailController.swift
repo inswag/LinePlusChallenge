@@ -1,35 +1,34 @@
 //
-//  MemoAddViewController.swift
+//  MemoDetailController.swift
 //  LinePlusChallenge
 //
-//  Created by Insu Park on 2020/02/14.
+//  Created by Insu Park on 2020/02/15.
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
 import UIKit
 
-class MemoAddViewController: ViewController {
+class MemoDetailController: ViewController {
     
     // MARK:- Properties
-    
     
     
     // MARK:- UI Properties
     
     let memoTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Writing.."
+        label.text = "Detail"
         label.textAlignment = .center
         label.textColor = UIColor.black
         return label
     }()
     
-    lazy var completeButton = UIBarButtonItem(title: "Complete",
+    lazy var completeButton = UIBarButtonItem(title: "Save",
                                               style: .plain,
                                               target: self,
-                                              action: #selector(actionComplete))
+                                              action: #selector(actionSave))
     
-    @objc func actionComplete() {
+    @objc func actionSave() {
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -47,12 +46,11 @@ class MemoAddViewController: ViewController {
         self.navigationItem.rightBarButtonItem = completeButton
         self.navigationItem.titleView = memoTitleLabel
         
-        self.view.backgroundColor = .blue
-        
+        self.view.backgroundColor = .white
     }
     
     override func setupUILayout() {
-        
+
     }
     
 }

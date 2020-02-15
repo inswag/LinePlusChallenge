@@ -13,16 +13,20 @@ class Navigator {
     enum Scene {
         case memoList
         case memoAdd
+        case memoDetail
     }
     
     func get(segue: Scene) -> UIViewController {
         switch segue {
         case .memoList:
-            let memoListVC = NavigationController(rootViewController: MemoListViewController(navigator: self))
+            let memoListVC = NavigationController(rootViewController: MemoListController(navigator: self))
             return memoListVC
         case .memoAdd:
-            let memoAddVC = MemoAddViewController()
+            let memoAddVC = MemoAddController()
             return memoAddVC
+        case .memoDetail:
+            let memoDetailVC = MemoDetailController()
+            return memoDetailVC
         }
     }
     

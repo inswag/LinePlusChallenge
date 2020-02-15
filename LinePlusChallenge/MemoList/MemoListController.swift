@@ -1,5 +1,5 @@
 //
-//  MemoListViewController.swift
+//  MemoListController.swift
 //  LinePlusChallenge
 //
 //  Created by Insu Park on 2020/02/13.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoListViewController: ViewController {
+class MemoListController: ViewController {
     
     // MARK:- Properties
     
@@ -19,7 +19,7 @@ class MemoListViewController: ViewController {
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: UIScreen.main.bounds,
                              style: UITableView.Style.plain)
-        tv.allowsSelection = false
+        tv.allowsSelection = true
         tv.backgroundColor = .white
         tv.separatorStyle = .none
         tv.dataSource = self
@@ -89,9 +89,9 @@ class MemoListViewController: ViewController {
 
 }
 
-// MARK:- Table View Dat aSource
+// MARK:- Table View Data Source
 
-extension MemoListViewController: UITableViewDataSource {
+extension MemoListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
@@ -110,11 +110,16 @@ extension MemoListViewController: UITableViewDataSource {
 
 // MARK:- Table View Delegate
 
-extension MemoListViewController: UITableViewDelegate {
+extension MemoListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 124
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.pushViewController(navigator.get(segue: .memoDetail), animated: true)
     }
     
 }

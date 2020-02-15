@@ -1,5 +1,5 @@
 //
-//  TableViewCell.swift
+//  MemoAddPhotoCell.swift
 //  LinePlusChallenge
 //
 //  Created by Insu Park on 2020/02/14.
@@ -8,26 +8,27 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
-    
+class MemoAddPhotoCell: TableViewCell {
+
     // MARK:- Initialize
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
-        setupUIComponents()
-        setupUILayout()
+        super.init(style: .default, reuseIdentifier: String(describing: MemoAddController.self))
+        self.backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUIComponents() {
+    // MARK:- Methods
+    
+    internal override func setupUIComponents() {
         
     }
     
-    func setupUILayout() {
+    internal override func setupUILayout() {
         
     }
+    
 }
