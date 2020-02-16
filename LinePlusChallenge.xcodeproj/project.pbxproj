@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		11E389FFFE5373791DA49D9E /* Pods_LinePlusChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1396A54C19DE37A1BF6FB7F /* Pods_LinePlusChallenge.framework */; };
+		E670E03623F90785000A3FB3 /* MemoAddNestedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03523F90785000A3FB3 /* MemoAddNestedPhotoCell.swift */; };
+		E670E03823F90816000A3FB3 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03723F90816000A3FB3 /* CollectionViewCell.swift */; };
 		E68949B823F5168B009C2D8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68949B723F5168B009C2D8A /* AppDelegate.swift */; };
 		E68949BC23F5168B009C2D8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68949BB23F5168B009C2D8A /* ViewController.swift */; };
 		E68949C223F5168B009C2D8A /* LinePlusChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E68949C023F5168B009C2D8A /* LinePlusChallenge.xcdatamodeld */; };
@@ -31,6 +33,8 @@
 		5FA6419E8CD1DAA7AC2B7EEB /* Pods-LinePlusChallenge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LinePlusChallenge.debug.xcconfig"; path = "Target Support Files/Pods-LinePlusChallenge/Pods-LinePlusChallenge.debug.xcconfig"; sourceTree = "<group>"; };
 		A91438728A8D1EB02D93FF71 /* Pods-LinePlusChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LinePlusChallenge.release.xcconfig"; path = "Target Support Files/Pods-LinePlusChallenge/Pods-LinePlusChallenge.release.xcconfig"; sourceTree = "<group>"; };
 		D1396A54C19DE37A1BF6FB7F /* Pods_LinePlusChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LinePlusChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E670E03523F90785000A3FB3 /* MemoAddNestedPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddNestedPhotoCell.swift; sourceTree = "<group>"; };
+		E670E03723F90816000A3FB3 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		E68949B423F5168B009C2D8A /* LinePlusChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinePlusChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E68949B723F5168B009C2D8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E68949BB23F5168B009C2D8A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				E6B0567523F6847200825D8A /* NavigationController.swift */,
 				E68949BB23F5168B009C2D8A /* ViewController.swift */,
 				E6B0566C23F66CD600825D8A /* TableViewCell.swift */,
+				E670E03723F90816000A3FB3 /* CollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 			children = (
 				E6B0567823F6964C00825D8A /* MemoAddController.swift */,
 				E6B0567D23F6CEAC00825D8A /* MemoAddPhotoCell.swift */,
+				E670E03523F90785000A3FB3 /* MemoAddNestedPhotoCell.swift */,
 				E6B0567F23F6CFA300825D8A /* MemoAddTitleCell.swift */,
 				E6CF442323F7CD5700D1E29A /* MemoAddContentCell.swift */,
 			);
@@ -288,6 +294,7 @@
 			files = (
 				E6FD33F523F66A19008DD912 /* MemoListController.swift in Sources */,
 				E6B0567223F6819F00825D8A /* Application.swift in Sources */,
+				E670E03823F90816000A3FB3 /* CollectionViewCell.swift in Sources */,
 				E68949BC23F5168B009C2D8A /* ViewController.swift in Sources */,
 				E6CF442423F7CD5700D1E29A /* MemoAddContentCell.swift in Sources */,
 				E6B0566B23F66CB500825D8A /* MemoListCell.swift in Sources */,
@@ -297,6 +304,7 @@
 				E6B0567C23F6BFD200825D8A /* Memo.swift in Sources */,
 				E6B0566D23F66CD600825D8A /* TableViewCell.swift in Sources */,
 				E6CF442723F7DBF400D1E29A /* MemoDetailController.swift in Sources */,
+				E670E03623F90785000A3FB3 /* MemoAddNestedPhotoCell.swift in Sources */,
 				E6B0568023F6CFA300825D8A /* MemoAddTitleCell.swift in Sources */,
 				E6B0567423F6836D00825D8A /* Navigator.swift in Sources */,
 				E68949C223F5168B009C2D8A /* LinePlusChallenge.xcdatamodeld in Sources */,

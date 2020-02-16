@@ -119,7 +119,9 @@ extension MemoAddController: UITableViewDelegate {
         case 0, 1:
             return 72
         default:
-            return UITableView.automaticDimension
+            
+            return 300
+//            return UITableView.automaticDimension
         }
         
     }

@@ -1,21 +1,19 @@
 //
-//  TableViewCell.swift
+//  CollectionViewCell.swift
 //  LinePlusChallenge
 //
-//  Created by Insu Park on 2020/02/14.
+//  Created by Insu Park on 2020/02/16.
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class CollectionViewCell: UICollectionViewCell {
     
     // MARK:- Initialize
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
-        self.backgroundColor = .white
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUIComponents()
         setupUILayout()
     }
@@ -24,6 +22,8 @@ class TableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK:- UI Methods
+
     func setupUIComponents() {
         
     }
@@ -31,4 +31,5 @@ class TableViewCell: UITableViewCell {
     func setupUILayout() {
         
     }
+    
 }

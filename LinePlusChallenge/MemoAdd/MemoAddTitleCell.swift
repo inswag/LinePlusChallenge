@@ -32,7 +32,6 @@ class MemoAddTitleCell: TableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: String(describing: MemoAddController.self))
-        self.backgroundColor = .blue
     }
     
     required init?(coder: NSCoder) {
