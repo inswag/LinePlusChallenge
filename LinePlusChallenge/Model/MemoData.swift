@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
-class Memo {
+class MemoData {
     var memoIdx: Int?
-    var title: String = ""
-    var contents: String = ""
+    var title: String?
+    var contents: String?
     var image: UIImage?
+    var regdate: Date?
+
+    var objectID: NSManagedObjectID? // access to original object
 }

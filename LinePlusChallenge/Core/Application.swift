@@ -14,11 +14,11 @@ final class Application: NSObject {
     
     var window: UIWindow?
     var navigator: Navigator
-    var memolist: [Memo]
+    var memolist: [MemoData]
     
     private override init() {
         self.navigator = Navigator()
-        self.memolist = [Memo]()
+        self.memolist = [MemoData]()
         super.init()
     }
     

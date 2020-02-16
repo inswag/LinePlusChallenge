@@ -21,7 +21,8 @@ class MemoAddPhotoCell: TableViewCell {
         cv.setCollectionViewLayout(layout, animated: true)
         cv.dataSource = self
         cv.delegate = self
-        cv.register(MemoAddNestedPhotoCell.self, forCellWithReuseIdentifier: String(describing: MemoAddNestedPhotoCell.self))
+        cv.register(PhotoNestedAddCell.self, forCellWithReuseIdentifier: String(describing: PhotoNestedAddCell.self))
+        cv.register(PhotoNestedImageCell.self, forCellWithReuseIdentifier: String(describing: PhotoNestedImageCell.self))
         return cv
     }()
     
@@ -35,7 +36,6 @@ class MemoAddPhotoCell: TableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: String(describing: MemoAddController.self))
-        self.backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -77,13 +77,24 @@ extension MemoAddPhotoCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return 5
-        
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MemoAddNestedPhotoCell.self), for: indexPath) as? MemoAddNestedPhotoCell ?? UICollectionViewCell()
-        return cell
+        
+        switch indexPath.row {
+        case 0:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedAddCell.self),
+                                                          for: indexPath) as? PhotoNestedAddCell ?? UICollectionViewCell()
+            cell.backgroundColor = .purple
+            return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedImageCell.self),
+                                                          for: indexPath) as? PhotoNestedImageCell ?? UICollectionViewCell()
+            cell.backgroundColor = .orange
+            return cell
+        }
+        
     }
     
     
@@ -93,4 +104,11 @@ extension MemoAddPhotoCell: UICollectionViewDataSource {
 
 extension MemoAddPhotoCell: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 56, height: 56)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
 }
