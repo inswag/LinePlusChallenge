@@ -27,6 +27,5 @@ final class Application: NSObject {
         
         window.rootViewController = navigator.get(segue: .memoList
         )
-        
     }
 }

@@ -6,11 +6,31 @@
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
+import CoreData
 import UIKit
 
 class MemoAddController: ViewController {
     
     // MARK:- Properties
+    
+    lazy var memoDAO = MemoDAO()
+    
+    var memoTitle: String?
+    var memoContents: String?
+    
+    lazy var list: [NSManagedObject] = {
+        return self.fetch()
+    }()
+    
+    func fetch() -> [NSManagedObject] {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        let result = try! context.fetch(fetchRequest)
+        return result
+    }
+    
+    // MARK:- UI Properties
     
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: UIScreen.main.bounds,
@@ -22,14 +42,14 @@ class MemoAddController: ViewController {
         tv.delegate = self
         tv.register(MemoListCell.self,
                     forCellReuseIdentifier: String(describing: MemoListCell.self))
-        tv.register(MemoAddPhotoCell.self, forCellReuseIdentifier: String(describing: MemoAddPhotoCell.self))
-        tv.register(MemoAddTitleCell.self, forCellReuseIdentifier: String(describing: MemoAddTitleCell.self))
-        tv.register(MemoAddContentCell.self, forCellReuseIdentifier: String(describing: MemoAddContentCell.self))
-
+        tv.register(MemoAddPhotoCell.self,
+                    forCellReuseIdentifier: String(describing: MemoAddPhotoCell.self))
+        tv.register(MemoAddTitleCell.self,
+                    forCellReuseIdentifier: String(describing: MemoAddTitleCell.self))
+        tv.register(MemoAddContentCell.self,
+                    forCellReuseIdentifier: String(describing: MemoAddContentCell.self))
         return tv
     }()
-    
-    // MARK:- UI Properties
     
     let memoTitleLabel: UILabel = {
         let label = UILabel()
@@ -44,8 +64,54 @@ class MemoAddController: ViewController {
                                               target: self,
                                               action: #selector(actionSave))
     
+    
+    func save(title: String, contents: String) -> Bool {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo",
+                                                         into: context)
+        
+        object.setValue(memoTitle, forKey: "title")
+        object.setValue(memoContents, forKey: "contents")
+        object.setValue(Date(), forKey: "regdate")
+        
+        do {
+            try context.save()
+            self.list.append(object)
+            return true
+        } catch {
+            context.rollback()
+            return false
+        }
+        
+    }
+    
     @objc func actionSave() {
-        self.navigationController?.popViewController(animated: true)
+        
+        // 제목이 입력되지 않은 경우에 대한 alert 처리가 필요.
+        guard self.memoTitle?.isEmpty == false else {
+            let alert = UIAlertController(title: nil,
+                                          message: "제목을 입력해주세요",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        if self.save(title: memoTitle!, contents: memoContents!) == true {
+            self.tableView.reloadData()
+        }
+        
+        
+//        let data = MemoData()
+//        data.title =
+//        data.contents
+//        data.image
+//        data.regdate
+//
+//        self.memoDAO.insert()
     }
     
     // MARK:- View Life Cycle
@@ -61,7 +127,7 @@ class MemoAddController: ViewController {
     override func setupUIComponents() {
         self.navigationItem.rightBarButtonItem = completeButton
         self.navigationItem.titleView = memoTitleLabel
-        
+
         self.view.backgroundColor = .white
         
         [tableView].forEach {
@@ -91,15 +157,17 @@ extension MemoAddController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddPhotoCell.self),
-                                                     for: indexPath)
+                                                     for: indexPath) as! MemoAddPhotoCell
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddTitleCell.self),
-                                                     for: indexPath)
+                                                     for: indexPath) as! MemoAddTitleCell
+            self.memoTitle = cell.titleTextField.text
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddContentCell.self),
-                                                     for: indexPath)
+                                                     for: indexPath) as! MemoAddContentCell
+            self.memoContents = cell.contentTextView.text
             return cell
         default :
             return UITableViewCell()
@@ -125,5 +193,7 @@ extension MemoAddController: UITableViewDelegate {
         }
         
     }
+    
+    
     
 }

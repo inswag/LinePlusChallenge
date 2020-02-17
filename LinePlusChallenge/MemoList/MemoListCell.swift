@@ -30,7 +30,7 @@ class MemoListCell: TableViewCell {
         return label
     }()
     
-    let contentLabel: UILabel = {
+    let contentsLabel: UILabel = {
         let label = UILabel()
         label.text = "Content\nContent"
         label.numberOfLines = 2
@@ -39,7 +39,7 @@ class MemoListCell: TableViewCell {
     
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.titleLabel,
-                                                       self.contentLabel])
+                                                       self.contentsLabel])
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.spacing = 8

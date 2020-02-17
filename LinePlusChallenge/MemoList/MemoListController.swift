@@ -6,6 +6,7 @@
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
+import CoreData
 import UIKit
 
 class MemoListController: ViewController {
@@ -13,6 +14,18 @@ class MemoListController: ViewController {
     // MARK:- Properties
     
     let navigator: Navigator
+    
+    lazy var list: [NSManagedObject] = {
+        return self.fetch()
+    }()
+    
+    func fetch() -> [NSManagedObject] {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        let result = try! context.fetch(fetchRequest)
+        return result
+    }
     
     // MARK:- UI Properties
     
@@ -95,13 +108,22 @@ extension MemoListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.list.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let record = self.list[indexPath.row]
+        let title = record.value(forKey: "title") as? String
+        let contents = record.value(forKey: "contents") as? String
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
-                                                 for: indexPath)
+                                                 for: indexPath) as! MemoListCell
+        cell.titleLabel.text = title
+        cell.contentsLabel.text = contents
+        
+        
         cell.backgroundColor = .red
         return cell
     }
@@ -119,8 +141,24 @@ extension MemoListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(navigator.get(segue: .memoDetail), animated: true)
+//        self.navigationController?.pushViewController(navigator.get(segue: .memoDetail),
+//                                                      animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("OK")
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            self.tableView.endUpdates()
+        }
+    }
+    
+    
     
 }
 
