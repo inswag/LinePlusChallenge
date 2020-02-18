@@ -23,13 +23,13 @@ class MemoDetailController: ViewController {
         return label
     }()
     
-    lazy var completeButton = UIBarButtonItem(title: "Save",
+    lazy var completeButton = UIBarButtonItem(title: "Modify",
                                               style: .plain,
                                               target: self,
                                               action: #selector(actionSave))
     
     @objc func actionSave() {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.pushViewController(MemoModifyController(), animated: true)
     }
     
     // MARK:- View Life Cycle

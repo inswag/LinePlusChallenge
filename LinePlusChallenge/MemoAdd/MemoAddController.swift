@@ -9,14 +9,17 @@
 import CoreData
 import UIKit
 
+
 class MemoAddController: ViewController {
     
     // MARK:- Properties
     
+    let navigator: Navigator
     lazy var memoDAO = MemoDAO()
     
-    var memoTitle: String?
-    var memoContents: String?
+    var memoTitle: String = ""
+    var memoContents: String = ""
+    
     
     lazy var list: [NSManagedObject] = {
         return self.fetch()
@@ -65,53 +68,71 @@ class MemoAddController: ViewController {
                                               action: #selector(actionSave))
     
     
-    func save(title: String, contents: String) -> Bool {
+//    func save(title: String, contents: String) -> Bool {
+//        var memoData = M
+//        self.memoDAO.insert(<#T##data: MemoData##MemoData#>)
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+//
+//        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo",
+//                                                         into: context)
+//
+//        object.setValue(memoTitle, forKey: "title")
+//        object.setValue(memoContents, forKey: "contents")
+//        object.setValue(Date(), forKey: "regdate")
+//
+//        do {
+//            try context.save()
+//            self.list.append(object)
+//            return true
+//        } catch {
+//            context.rollback()
+//            return false
+//        }
         
-        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo",
-                                                         into: context)
-        
-        object.setValue(memoTitle, forKey: "title")
-        object.setValue(memoContents, forKey: "contents")
-        object.setValue(Date(), forKey: "regdate")
-        
-        do {
-            try context.save()
-            self.list.append(object)
-            return true
-        } catch {
-            context.rollback()
-            return false
-        }
-        
-    }
+//    }/
     
     @objc func actionSave() {
         
         // 제목이 입력되지 않은 경우에 대한 alert 처리가 필요.
-        guard self.memoTitle?.isEmpty == false else {
+        guard self.memoTitle.isEmpty == false else {
             let alert = UIAlertController(title: nil,
                                           message: "제목을 입력해주세요",
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK",
+                                          style: .default,
+                                          handler: nil))
             self.present(alert, animated: true)
             return
         }
         
-        if self.save(title: memoTitle!, contents: memoContents!) == true {
-            self.tableView.reloadData()
-        }
+//        if self.save(title: memoTitle, contents: memoContents) == true {
+//            let memoList = MemoListController(navigator: navigator)
+////            memoList.tableView.reloadData()
+//        }
         
         
-//        let data = MemoData()
-//        data.title =
-//        data.contents
-//        data.image
-//        data.regdate
+        let data = MemoData()
+        data.title = self.memoTitle
+        data.contents = self.memoContents
+//        data.image =
+        data.regdate = Date()
 //
+
+        self.memoDAO.insert(data)
 //        self.memoDAO.insert()
+    }
+    
+    // MARK:- Initialize
+    
+    init(navigator: Navigator) {
+        self.navigator = navigator
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK:- View Life Cycle
@@ -162,12 +183,12 @@ extension MemoAddController: UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddTitleCell.self),
                                                      for: indexPath) as! MemoAddTitleCell
-            self.memoTitle = cell.titleTextField.text
+            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddContentCell.self),
                                                      for: indexPath) as! MemoAddContentCell
-            self.memoContents = cell.contentTextView.text
+            cell.delegate = self
             return cell
         default :
             return UITableViewCell()
@@ -187,13 +208,25 @@ extension MemoAddController: UITableViewDelegate {
         case 0, 1:
             return 72
         default:
-            
             return 300
 //            return UITableView.automaticDimension
         }
         
     }
     
+}
+
+// MARK:- TextField & TextView Delegate
+
+extension MemoAddController: TextFieldDelegate, TextViewDelegate {
     
+    func sendDataFromTF(text: String) {
+        self.memoTitle = text
+    }
+    
+    func sendDataFromTV(text: String) {
+        self.memoContents = text
+    }
     
 }
+

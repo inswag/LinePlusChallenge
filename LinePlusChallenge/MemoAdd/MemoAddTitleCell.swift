@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol TextFieldDelegate: class {
+    func sendDataFromTF(text: String)
+}
+
 class MemoAddTitleCell: TableViewCell {
+    
+    // MARK:- Properties
+    
+    weak var delegate: TextFieldDelegate?
     
     // MARK:- UI Properties
     
@@ -16,12 +24,19 @@ class MemoAddTitleCell: TableViewCell {
         let textField = UITextField()
         textField.placeholder = "제목"
         textField.text = "Title OK"
+        textField.textColor = .black
         textField.backgroundColor = UIColor.white
         textField.borderStyle = .none
 //        textField.font = Tools.font.systemFont(size: 14)
-        textField.delegate = self
+        textField.addTarget(self,
+                            action: #selector(actionInput),
+                            for: .editingChanged)
         return textField
     }()
+    
+    @objc func actionInput() {
+        delegate?.sendDataFromTF(text: titleTextField.text!)
+    }
     
     let borderView: UIView = {
         let view = UIView()
@@ -31,8 +46,10 @@ class MemoAddTitleCell: TableViewCell {
     
     // MARK:- Initialize
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: String(describing: MemoAddController.self))
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: .default,
+                   reuseIdentifier: String(describing: MemoAddController.self))
     }
     
     required init?(coder: NSCoder) {
@@ -62,9 +79,5 @@ class MemoAddTitleCell: TableViewCell {
             $0.height.equalTo(1)
         }
     }
-    
-}
-
-extension MemoAddTitleCell: UITextFieldDelegate {
     
 }

@@ -13,6 +13,17 @@ class MemoListCell: TableViewCell {
     // MARK:- Constant
     
     
+    // MARK:- Properties
+    
+    var viewModel: MemoListCellViewModel! {
+      didSet {
+//        let imageURL = URL(string: viewModel.thumbnail)
+//        photoImageView.kf.setImage(with: imageURL)
+        titleLabel.text = viewModel.title
+        contentsLabel.text = viewModel.contents
+      }
+    }
+    
     
     // MARK:- UI Properties
     
@@ -27,12 +38,14 @@ class MemoListCell: TableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Title"
+        label.textColor = .black
         return label
     }()
     
     let contentsLabel: UILabel = {
         let label = UILabel()
         label.text = "Content\nContent"
+        label.textColor = .black
         label.numberOfLines = 2
         return label
     }()
@@ -54,8 +67,10 @@ class MemoListCell: TableViewCell {
     
     // MARK:- Initialize
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: String(describing: MemoListController.self))
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: .default,
+                   reuseIdentifier: String(describing: MemoListController.self))
     }
     
     required init?(coder: NSCoder) {

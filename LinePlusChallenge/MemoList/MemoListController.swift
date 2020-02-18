@@ -13,19 +13,28 @@ class MemoListController: ViewController {
     
     // MARK:- Properties
     
+    let viewModel: MemoListControllerViewModel
     let navigator: Navigator
     
-    lazy var list: [NSManagedObject] = {
-        return self.fetch()
-    }()
-    
-    func fetch() -> [NSManagedObject] {
+
+//    func delete(object: NSManagedObject) -> Bool {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
-        let result = try! context.fetch(fetchRequest)
-        return result
-    }
+//        let context = appDelegate.persistentContainer.viewContext
+//
+//        context.delete(object)
+//
+//        do {
+//            try context.save()
+//            return true
+//        } catch {
+//            context.rollback()
+//            return false
+//        }
+//
+//    }
+    
+    let memoDAO = MemoDAO()
+    
     
     // MARK:- UI Properties
     
@@ -49,7 +58,7 @@ class MemoListController: ViewController {
         label.textColor = UIColor.black
         return label
     }()
-
+    
     
     lazy var newMemoButton = UIBarButtonItem(title: "New",
                                              style: .plain,
@@ -62,8 +71,10 @@ class MemoListController: ViewController {
     
     // MARK:- Initialize
     
-    init(navigator: Navigator) {
+    init(navigator: Navigator,
+         viewModel: MemoListControllerViewModel) {
         self.navigator = navigator
+        self.viewModel = viewModel
         super.init()
     }
     
@@ -77,7 +88,13 @@ class MemoListController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        viewModel.fetchMemoList {
+            self.tableView.reloadData()
+        }
     }
     
     
@@ -98,8 +115,8 @@ class MemoListController: ViewController {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
     }
-
-
+    
+    
 }
 
 // MARK:- Table View Data Source
@@ -108,23 +125,14 @@ extension MemoListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return self.list.count
+        return viewModel.memoList.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let record = self.list[indexPath.row]
-        let title = record.value(forKey: "title") as? String
-        let contents = record.value(forKey: "contents") as? String
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
                                                  for: indexPath) as! MemoListCell
-        cell.titleLabel.text = title
-        cell.contentsLabel.text = contents
-        
-        
-        cell.backgroundColor = .red
+        cell.viewModel = MemoListCellViewModel(content: viewModel.memoList[indexPath.row])
         return cell
     }
     
@@ -141,8 +149,8 @@ extension MemoListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-//        self.navigationController?.pushViewController(navigator.get(segue: .memoDetail),
-//                                                      animated: true)
+        self.navigationController?.pushViewController(navigator.get(segue: .memoDetail),
+                                                      animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -151,12 +159,12 @@ extension MemoListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("OK")
-            self.tableView.beginUpdates()
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
-            self.tableView.endUpdates()
+            viewModel.delete(indexPath: indexPath) {
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         }
     }
+    
     
     
     

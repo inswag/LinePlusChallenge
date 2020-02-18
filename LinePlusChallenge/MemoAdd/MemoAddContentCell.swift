@@ -8,21 +8,33 @@
 
 import UIKit
 
+protocol TextViewDelegate: class {
+    func sendDataFromTV(text: String)
+}
+
 class MemoAddContentCell: TableViewCell {
 
+    // MARK:- Properties
+    
+    weak var delegate: TextViewDelegate?
+    
     // MARK:- UI Properties
     
-    let contentTextView: UITextView = {
+    lazy var contentTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .white
         textView.text = "내용"
+        textView.textColor = .black
+        textView.delegate = self
         return textView
     }()
     
     // MARK:- Initialize
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: String(describing: MemoAddController.self))
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: .default,
+                   reuseIdentifier: String(describing: MemoAddController.self))
         self.backgroundColor = .gray
     }
     
@@ -48,4 +60,14 @@ class MemoAddContentCell: TableViewCell {
         }
     }
     
+}
+
+extension MemoAddContentCell: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text else { return }
+        delegate?.sendDataFromTV(text: text)
+//        print(text)
+    }
+
 }

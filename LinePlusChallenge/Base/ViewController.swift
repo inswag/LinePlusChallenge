@@ -27,6 +27,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setupUIComponents()
         setupUILayout()
+        setupImplementation()
     }
     
     // MARK:- UI Methods
@@ -37,6 +38,10 @@ class ViewController: UIViewController {
     }
 
     func setupUILayout() {
+        
+    }
+    
+    func setupImplementation() {
         
     }
     
