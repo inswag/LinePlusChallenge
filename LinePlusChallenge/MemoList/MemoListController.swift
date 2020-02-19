@@ -16,22 +16,7 @@ class MemoListController: ViewController {
     let viewModel: MemoListControllerViewModel
     let navigator: Navigator
     
-
-//    func delete(object: NSManagedObject) -> Bool {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let context = appDelegate.persistentContainer.viewContext
-//
-//        context.delete(object)
-//
-//        do {
-//            try context.save()
-//            return true
-//        } catch {
-//            context.rollback()
-//            return false
-//        }
-//
-//    }
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     let memoDAO = MemoDAO()
     

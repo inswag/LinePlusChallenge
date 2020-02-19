@@ -23,7 +23,8 @@ class Navigator {
             let memoListVC = NavigationController(rootViewController: MemoListController(navigator: self, viewModel: viewModel))
             return memoListVC
         case .memoAdd:
-            let memoAddVC = MemoAddController(navigator: self)
+            let viewModel = MemoAddControllerViewModel()
+            let memoAddVC = MemoAddController(navigator: self, viewModel: viewModel)
             return memoAddVC
         case .memoDetail:
             let memoDetailVC = MemoDetailController()

@@ -15,23 +15,18 @@ class MemoAddController: ViewController {
     // MARK:- Properties
     
     let navigator: Navigator
-    lazy var memoDAO = MemoDAO()
+    let viewModel: MemoAddControllerViewModel
     
     var memoTitle: String = ""
     var memoContents: String = ""
     
-    
-    lazy var list: [NSManagedObject] = {
-        return self.fetch()
-    }()
-    
-    func fetch() -> [NSManagedObject] {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
-        let result = try! context.fetch(fetchRequest)
-        return result
-    }
+//    func fetch() -> [NSManagedObject] {
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+//        let result = try! context.fetch(fetchRequest)
+//        return result
+//    }
     
     // MARK:- UI Properties
     
@@ -67,32 +62,6 @@ class MemoAddController: ViewController {
                                               target: self,
                                               action: #selector(actionSave))
     
-    
-//    func save(title: String, contents: String) -> Bool {
-//        var memoData = M
-//        self.memoDAO.insert(<#T##data: MemoData##MemoData#>)
-        
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let context = appDelegate.persistentContainer.viewContext
-//
-//        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo",
-//                                                         into: context)
-//
-//        object.setValue(memoTitle, forKey: "title")
-//        object.setValue(memoContents, forKey: "contents")
-//        object.setValue(Date(), forKey: "regdate")
-//
-//        do {
-//            try context.save()
-//            self.list.append(object)
-//            return true
-//        } catch {
-//            context.rollback()
-//            return false
-//        }
-        
-//    }/
-    
     @objc func actionSave() {
         
         // 제목이 입력되지 않은 경우에 대한 alert 처리가 필요.
@@ -106,28 +75,16 @@ class MemoAddController: ViewController {
             self.present(alert, animated: true)
             return
         }
-        
-//        if self.save(title: memoTitle, contents: memoContents) == true {
-//            let memoList = MemoListController(navigator: navigator)
-////            memoList.tableView.reloadData()
-//        }
-        
-        
-        let data = MemoData()
-        data.title = self.memoTitle
-        data.contents = self.memoContents
-//        data.image =
-        data.regdate = Date()
-//
-
-        self.memoDAO.insert(data)
-//        self.memoDAO.insert()
+    
+        viewModel.insertMemo(title: self.memoTitle,
+                             contents: self.memoContents)
     }
     
     // MARK:- Initialize
     
-    init(navigator: Navigator) {
+    init(navigator: Navigator, viewModel: MemoAddControllerViewModel) {
         self.navigator = navigator
+        self.viewModel = viewModel
         super.init()
     }
     
@@ -170,7 +127,7 @@ extension MemoAddController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView,
@@ -203,15 +160,12 @@ extension MemoAddController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         switch indexPath.row {
         case 0, 1:
             return 72
         default:
-            return 300
-//            return UITableView.automaticDimension
+            return 500
         }
-        
     }
     
 }

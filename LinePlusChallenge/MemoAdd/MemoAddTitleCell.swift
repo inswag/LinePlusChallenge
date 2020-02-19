@@ -22,8 +22,8 @@ class MemoAddTitleCell: TableViewCell {
     
     lazy var titleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "제목"
-        textField.text = "Title OK"
+        textField.attributedPlaceholder = NSAttributedString(string: "제목",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.textColor = .black
         textField.backgroundColor = UIColor.white
         textField.borderStyle = .none

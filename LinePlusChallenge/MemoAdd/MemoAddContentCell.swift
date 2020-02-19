@@ -35,7 +35,7 @@ class MemoAddContentCell: TableViewCell {
                   reuseIdentifier: String?) {
         super.init(style: .default,
                    reuseIdentifier: String(describing: MemoAddController.self))
-        self.backgroundColor = .gray
+        
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +45,8 @@ class MemoAddContentCell: TableViewCell {
     // MARK:- Methods
     
     internal override func setupUIComponents() {
+        self.backgroundColor = .white
+
         [contentTextView].forEach {
             self.addSubview($0)
         }
@@ -59,7 +61,7 @@ class MemoAddContentCell: TableViewCell {
             
         }
     }
-    
+
 }
 
 extension MemoAddContentCell: UITextViewDelegate {
@@ -67,7 +69,6 @@ extension MemoAddContentCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let text = textView.text else { return }
         delegate?.sendDataFromTV(text: text)
-//        print(text)
     }
-
+    
 }

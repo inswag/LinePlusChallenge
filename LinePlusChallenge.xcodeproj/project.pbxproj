@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11E389FFFE5373791DA49D9E /* Pods_LinePlusChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1396A54C19DE37A1BF6FB7F /* Pods_LinePlusChallenge.framework */; };
+		E65CC26F23FCFE6400BE004E /* MemoAddControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC26E23FCFE6400BE004E /* MemoAddControllerViewModel.swift */; };
 		E670E03623F90785000A3FB3 /* PhotoNestedAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03523F90785000A3FB3 /* PhotoNestedAddCell.swift */; };
 		E670E03823F90816000A3FB3 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03723F90816000A3FB3 /* CollectionViewCell.swift */; };
 		E670E03A23F91B7D000A3FB3 /* PhotoNestedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03923F91B7D000A3FB3 /* PhotoNestedImageCell.swift */; };
@@ -38,6 +39,7 @@
 		5FA6419E8CD1DAA7AC2B7EEB /* Pods-LinePlusChallenge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LinePlusChallenge.debug.xcconfig"; path = "Target Support Files/Pods-LinePlusChallenge/Pods-LinePlusChallenge.debug.xcconfig"; sourceTree = "<group>"; };
 		A91438728A8D1EB02D93FF71 /* Pods-LinePlusChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LinePlusChallenge.release.xcconfig"; path = "Target Support Files/Pods-LinePlusChallenge/Pods-LinePlusChallenge.release.xcconfig"; sourceTree = "<group>"; };
 		D1396A54C19DE37A1BF6FB7F /* Pods_LinePlusChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LinePlusChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E65CC26E23FCFE6400BE004E /* MemoAddControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddControllerViewModel.swift; sourceTree = "<group>"; };
 		E670E03523F90785000A3FB3 /* PhotoNestedAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNestedAddCell.swift; sourceTree = "<group>"; };
 		E670E03723F90816000A3FB3 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		E670E03923F91B7D000A3FB3 /* PhotoNestedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNestedImageCell.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				E6B0567823F6964C00825D8A /* MemoAddController.swift */,
+				E65CC26E23FCFE6400BE004E /* MemoAddControllerViewModel.swift */,
 				E6B0567D23F6CEAC00825D8A /* MemoAddPhotoCell.swift */,
 				E670E03523F90785000A3FB3 /* PhotoNestedAddCell.swift */,
 				E670E03923F91B7D000A3FB3 /* PhotoNestedImageCell.swift */,
@@ -321,6 +324,7 @@
 				E68949BC23F5168B009C2D8A /* ViewController.swift in Sources */,
 				E670E04323FC0662000A3FB3 /* MemoListCellViewModel.swift in Sources */,
 				E6CF442423F7CD5700D1E29A /* MemoAddContentCell.swift in Sources */,
+				E65CC26F23FCFE6400BE004E /* MemoAddControllerViewModel.swift in Sources */,
 				E670E03C23F97270000A3FB3 /* MemoDAO.swift in Sources */,
 				E6B0566B23F66CB500825D8A /* MemoListCell.swift in Sources */,
 				E6B0567923F6964C00825D8A /* MemoAddController.swift in Sources */,

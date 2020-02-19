@@ -16,13 +16,16 @@ class MemoAddPhotoCell: TableViewCell {
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        let cv = UICollectionView(frame: CGRect.zero,
+                                  collectionViewLayout: layout)
         cv.backgroundColor = .yellow
         cv.setCollectionViewLayout(layout, animated: true)
         cv.dataSource = self
         cv.delegate = self
-        cv.register(PhotoNestedAddCell.self, forCellWithReuseIdentifier: String(describing: PhotoNestedAddCell.self))
-        cv.register(PhotoNestedImageCell.self, forCellWithReuseIdentifier: String(describing: PhotoNestedImageCell.self))
+        cv.register(PhotoNestedAddCell.self,
+                    forCellWithReuseIdentifier: String(describing: PhotoNestedAddCell.self))
+        cv.register(PhotoNestedImageCell.self,
+                    forCellWithReuseIdentifier: String(describing: PhotoNestedImageCell.self))
         return cv
     }()
     
@@ -63,8 +66,6 @@ class MemoAddPhotoCell: TableViewCell {
             $0.trailing.equalToSuperview().offset(-8)
             $0.bottom.equalToSuperview()
             $0.height.equalTo(1)
-            
-            
         }
     }
     
