@@ -18,7 +18,7 @@ class MemoAddPhotoCell: TableViewCell {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: CGRect.zero,
                                   collectionViewLayout: layout)
-        cv.backgroundColor = .yellow
+        cv.backgroundColor = .white
         cv.setCollectionViewLayout(layout, animated: true)
         cv.dataSource = self
         cv.delegate = self
@@ -37,8 +37,10 @@ class MemoAddPhotoCell: TableViewCell {
     
     // MARK:- Initialize
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: String(describing: MemoAddController.self))
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: .default,
+                   reuseIdentifier: String(describing: MemoAddController.self))
     }
     
     required init?(coder: NSCoder) {
@@ -87,7 +89,6 @@ extension MemoAddPhotoCell: UICollectionViewDataSource {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedAddCell.self),
                                                           for: indexPath) as? PhotoNestedAddCell ?? UICollectionViewCell()
-            cell.backgroundColor = .purple
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedImageCell.self),

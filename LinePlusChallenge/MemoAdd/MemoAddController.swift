@@ -68,6 +68,8 @@ class MemoAddController: ViewController {
     
         viewModel.insertMemo(title: self.memoTitle,
                              contents: self.memoContents)
+        
+//        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK:- Initialize
@@ -122,17 +124,17 @@ extension MemoAddController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
+        switch MemoAddControllerViewModel.CellType(rawValue: indexPath.row) {
+        case .photo:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddPhotoCell.self),
                                                      for: indexPath) as! MemoAddPhotoCell
             return cell
-        case 1:
+        case .title:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddTitleCell.self),
                                                      for: indexPath) as! MemoAddTitleCell
             cell.delegate = self
             return cell
-        case 2:
+        case .content:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddContentCell.self),
                                                      for: indexPath) as! MemoAddContentCell
             cell.delegate = self

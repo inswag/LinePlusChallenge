@@ -13,9 +13,6 @@ class MemoDAO {
     
     // MARK:- Properties
     
-    // 관리 객체 컨텍스트 : 데이터 읽기, 쓰기, 수정은 모두 여기를 통해 처리.
-    // 1. 관리 객체를 담거나 생성, 삭제 가능 / 모든 관리 객체를 영구 저장소로 보내 저장
-    // 2. 영구 저장소 및 영구 저장소 코디네이터에 대한 관리자 역할.
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -26,9 +23,7 @@ class MemoDAO {
     func fetch() -> [MemoData] {
         var memolist = [MemoData]()
         
-        // 관리객체(Managed Object) : 데이터를 저장하기 위해 생성하는 인스턴스
         let fetchRequest: NSFetchRequest<MemoMO> = MemoMO.fetchRequest()
-        
         let regdateDesc = NSSortDescriptor(key: "regdate",
                                            ascending: false)
         fetchRequest.sortDescriptors = [regdateDesc]
@@ -38,7 +33,6 @@ class MemoDAO {
             
             for record in resultSet {
                 let data = MemoData()
-                
                 data.title = record.title
                 data.contents = record.contents
                 data.regdate = record.regdate! as Date
@@ -61,9 +55,7 @@ class MemoDAO {
     func fetchSingle(indexPath: IndexPath) -> MemoData {
         var memolist = [MemoData]()
         
-        // 관리객체(Managed Object) : 데이터를 저장하기 위해 생성하는 인스턴스
         let fetchRequest: NSFetchRequest<MemoMO> = MemoMO.fetchRequest()
-        
         let regdateDesc = NSSortDescriptor(key: "regdate",
                                            ascending: false)
         fetchRequest.sortDescriptors = [regdateDesc]
@@ -84,7 +76,6 @@ class MemoDAO {
                 }
                 
                 memolist.append(data)
-                
             }
         } catch let error as NSError {
             NSLog("Error: \(error.localizedDescription)")
@@ -95,13 +86,12 @@ class MemoDAO {
     
 
     func insert(_ data: MemoData) {
-        
-        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo", into: self.context) as! MemoMO
-        
+        let object = NSEntityDescription.insertNewObject(forEntityName: "Memo",
+                                                         into: self.context) as! MemoMO
         object.title = data.title
         object.contents = data.contents
         object.regdate = data.regdate!
-        
+
         if let image = data.image {
             object.image = image.pngData()!
         }

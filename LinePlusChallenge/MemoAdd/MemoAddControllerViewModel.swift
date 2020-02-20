@@ -10,6 +10,15 @@ import UIKit
 
 class MemoAddControllerViewModel {
     
+    // MARK:- Cell Type
+    
+    enum CellType: Int {
+        case photo
+        case title
+        case content
+        case totalCount
+    }
+    
     // MARK:- Properties
     
     lazy var memoDAO = MemoDAO()
@@ -18,6 +27,12 @@ class MemoAddControllerViewModel {
 //        let application =
 //        return Application.shared.memolist
 //    }()
+    
+    // MARK:- Table View Data Source
+    
+    func numberOfRowsInSection() -> Int {
+        return CellType.totalCount.rawValue
+    }
     
     // MARK:- Core Data Methods
     
@@ -29,8 +44,6 @@ class MemoAddControllerViewModel {
         self.memoDAO.insert(data)
     }
         
-    func numberOfRowsInSection() -> Int {
-        return 3
-    }
+
     
 }

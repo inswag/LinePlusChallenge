@@ -25,7 +25,26 @@ class PhotoNestedAddCell: CollectionViewCell {
     }()
     
     @objc func actionAddPhotos() {
-        print("ok")
+//        let alert = UIAlertController(title: nil,
+//                                      message: "어디서 사진을 가져올까요?",
+//                                      preferredStyle: .actionSheet)
+//        
+//        let voiceControllerAction = UIAlertAction(title: "",
+//                                                  style: .default,
+//                                                  handler: voiceHandler)
+//        
+//        let customWordAction = UIAlertAction(title: "나만의 단어장",
+//                                             style: .default,
+//                                             handler: customWordHandler)
+//        
+//        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+//        
+//        
+//        alert.addAction(voiceControllerAction)
+//        //        alert.addAction(customWordAction)
+//        alert.addAction(cancelAction)
+//        
+//        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK:- Initialize

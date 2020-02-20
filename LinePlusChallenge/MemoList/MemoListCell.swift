@@ -12,13 +12,27 @@ class MemoListCell: TableViewCell {
     
     // MARK:- Constant
     
+    struct UI {
+        static let imageRadius: CGFloat = 14
+        static let imageTopMargin: CGFloat = 16                 // +
+        static let imageLeadingMargin: CGFloat = 16
+        static let imageWidthHeight: CGFloat = 90               // +
+
+        static let stackViewSpacing: CGFloat = 8
+        static let stackViewTopMargin: CGFloat = 8
+        static let stackViewLeadingMargin: CGFloat = 16
+        static let stackViewTrailingMargin: CGFloat = -16
+        static let stackViewBottomMargin: CGFloat = -8          // +
+        
+        static let borderViewLeadingMargin: CGFloat = 16
+        static let borderViewTrailingMargin: CGFloat = -16
+        static let borderviewHeight: CGFloat = 2                // +
+    }
     
     // MARK:- Properties
     
     var viewModel: MemoListCellViewModel! {
       didSet {
-//        let imageURL = URL(string: viewModel.thumbnail)
-//        photoImageView.kf.setImage(with: imageURL)
         titleLabel.text = viewModel.title
         contentsLabel.text = viewModel.contents
       }
@@ -30,7 +44,7 @@ class MemoListCell: TableViewCell {
     let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
-        iv.layer.cornerRadius = 3
+        iv.layer.cornerRadius = UI.imageRadius
         iv.clipsToBounds = true
         return iv
     }()
@@ -55,7 +69,7 @@ class MemoListCell: TableViewCell {
                                                        self.contentsLabel])
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 8
+        stackView.spacing = UI.stackViewSpacing
         return stackView
     }()
     
@@ -79,33 +93,33 @@ class MemoListCell: TableViewCell {
     
     // MARK:- Methods
     
-    internal override func setupUIComponents() {
+    override func setupUIComponents() {
         [photoImageView, stackView, borderView].forEach {
             self.contentView.addSubview($0)
         }
     }
     
-    internal override func setupUILayout() {
-        
+    override func setupUILayout() {
         photoImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
-            $0.leading.equalToSuperview().offset(16)
-            $0.width.equalTo(90)
-            $0.height.equalTo(90)
+            $0.top.equalToSuperview().offset(UI.imageTopMargin)
+            $0.leading.equalToSuperview().offset(UI.imageLeadingMargin)
+            $0.width.equalTo(UI.imageWidthHeight)
+            $0.height.equalTo(UI.imageWidthHeight)
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(photoImageView.snp.top).offset(8)
-            $0.leading.equalTo(photoImageView.snp.trailing).offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalTo(photoImageView.snp.bottom).offset(-8)
+            $0.top.equalTo(photoImageView.snp.top).offset(UI.stackViewTopMargin)
+            $0.leading.equalTo(photoImageView.snp.trailing).offset(UI.stackViewLeadingMargin)
+            $0.trailing.equalToSuperview().offset(UI.stackViewTrailingMargin)
+            $0.bottom.equalTo(photoImageView.snp.bottom).offset(UI.stackViewBottomMargin)
         }
         
+
         borderView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(2)
+            $0.leading.equalToSuperview().offset(UI.borderViewLeadingMargin)
+            $0.trailing.equalToSuperview().offset(UI.borderViewTrailingMargin)
+            $0.height.equalTo(UI.borderviewHeight)
         }
         
     }

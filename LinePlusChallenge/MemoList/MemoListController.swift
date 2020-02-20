@@ -9,7 +9,13 @@
 import CoreData
 import UIKit
 
-class MemoListController: ViewController {
+final class MemoListController: ViewController {
+    
+    // MARK:- Constant
+    
+    struct UI {
+        static let cellHeight: CGFloat = 124
+    }
     
     // MARK:- Properties
     
@@ -105,15 +111,25 @@ extension MemoListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return viewModel.app.memolist.count
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
-                                                 for: indexPath) as! MemoListCell
-        cell.viewModel = MemoListCellViewModel(content: viewModel.app.memolist[indexPath.row])
-        return cell
+        
+        
+        switch MemoListControllerViewModel.CellType(rawValue: indexPath.row) {
+        case .memoList:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
+                                                           for: indexPath) as? MemoListCell else { return UITableViewCell() }
+            cell.viewModel = MemoListCellViewModel(content: viewModel.memoList[indexPath.row])
+            return cell
+        case .none:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
+                                                           for: indexPath) as? MemoListCell else { return UITableViewCell() }
+            cell.viewModel = MemoListCellViewModel(content: viewModel.memoList[indexPath.row])
+            return cell
+        }
     }
     
 }
@@ -124,12 +140,11 @@ extension MemoListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 124
+        return UI.cellHeight
     }
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-//        let selected = indexPath.row
         let memoDetail = navigator.get(segue: .memoDetail(indexPath: indexPath))
         self.navigationController?.pushViewController(memoDetail, animated: true)
     }

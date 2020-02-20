@@ -9,25 +9,36 @@
 import CoreData
 import UIKit
 
-class MemoListControllerViewModel {
+final class MemoListControllerViewModel {
+    
+    // MARK:- Cell Type
+    
+    enum CellType: Int {
+        case memoList
+    }
     
     // MARK:- Properties
     
-    var app = Application.shared
-    
+    var memoList: [MemoData] = []
     lazy var memoDAO = MemoDAO()
+    
+    // MARK:- Table View Data Source
+    
+    func numberOfRowsInSection() -> Int {
+        return memoList.count
+    }
     
     // MARK:- Core Data Methods
     
     func fetchMemoList(completion: @escaping () -> ()) {
-        app.memolist = memoDAO.fetch()
+        self.memoList = memoDAO.fetch()
         completion()
     }
     
     func delete(indexPath: IndexPath, completion: @escaping () -> ()) {
-        let data = app.memolist[indexPath.row]
+        let data = self.memoList[indexPath.row]
         if memoDAO.delete(data.objectID!) {
-            app.memolist.remove(at: indexPath.row)
+            self.memoList.remove(at: indexPath.row)
             completion()
         }
     }
