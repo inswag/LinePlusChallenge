@@ -16,11 +16,6 @@ class MemoListController: ViewController {
     let viewModel: MemoListControllerViewModel
     let navigator: Navigator
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
-    let memoDAO = MemoDAO()
-    
-    
     // MARK:- UI Properties
     
     lazy var tableView: UITableView = {
@@ -110,14 +105,14 @@ extension MemoListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return viewModel.memoList.count
+        return viewModel.app.memolist.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
                                                  for: indexPath) as! MemoListCell
-        cell.viewModel = MemoListCellViewModel(content: viewModel.memoList[indexPath.row])
+        cell.viewModel = MemoListCellViewModel(content: viewModel.app.memolist[indexPath.row])
         return cell
     }
     
@@ -134,8 +129,9 @@ extension MemoListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(navigator.get(segue: .memoDetail),
-                                                      animated: true)
+//        let selected = indexPath.row
+        let memoDetail = navigator.get(segue: .memoDetail(indexPath: indexPath))
+        self.navigationController?.pushViewController(memoDetail, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

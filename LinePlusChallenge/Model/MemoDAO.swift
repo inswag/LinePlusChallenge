@@ -13,7 +13,9 @@ class MemoDAO {
     
     // MARK:- Properties
     
-    // 관리 객체 컨텍스트 반환
+    // 관리 객체 컨텍스트 : 데이터 읽기, 쓰기, 수정은 모두 여기를 통해 처리.
+    // 1. 관리 객체를 담거나 생성, 삭제 가능 / 모든 관리 객체를 영구 저장소로 보내 저장
+    // 2. 영구 저장소 및 영구 저장소 코디네이터에 대한 관리자 역할.
     lazy var context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -24,7 +26,7 @@ class MemoDAO {
     func fetch() -> [MemoData] {
         var memolist = [MemoData]()
         
-        // 요청 객체 생성
+        // 관리객체(Managed Object) : 데이터를 저장하기 위해 생성하는 인스턴스
         let fetchRequest: NSFetchRequest<MemoMO> = MemoMO.fetchRequest()
         
         let regdateDesc = NSSortDescriptor(key: "regdate",
@@ -32,7 +34,6 @@ class MemoDAO {
         fetchRequest.sortDescriptors = [regdateDesc]
         
         do {
-            
             let resultSet = try self.context.fetch(fetchRequest)
             
             for record in resultSet {
@@ -50,12 +51,46 @@ class MemoDAO {
                 memolist.append(data)
                 
             }
-            
         } catch let error as NSError {
             NSLog("Error: \(error.localizedDescription)")
         }
         
         return memolist
+    }
+    
+    func fetchSingle(indexPath: IndexPath) -> MemoData {
+        var memolist = [MemoData]()
+        
+        // 관리객체(Managed Object) : 데이터를 저장하기 위해 생성하는 인스턴스
+        let fetchRequest: NSFetchRequest<MemoMO> = MemoMO.fetchRequest()
+        
+        let regdateDesc = NSSortDescriptor(key: "regdate",
+                                           ascending: false)
+        fetchRequest.sortDescriptors = [regdateDesc]
+        
+        do {
+            let resultSet = try self.context.fetch(fetchRequest)
+            
+            for record in resultSet {
+                let data = MemoData()
+                
+                data.title = record.title
+                data.contents = record.contents
+                data.regdate = record.regdate! as Date
+                data.objectID = record.objectID
+                
+                if let image = record.image as Data? {
+                    data.image = UIImage(data: image)
+                }
+                
+                memolist.append(data)
+                
+            }
+        } catch let error as NSError {
+            NSLog("Error: \(error.localizedDescription)")
+        }
+        
+        return memolist[indexPath.row]
     }
     
 

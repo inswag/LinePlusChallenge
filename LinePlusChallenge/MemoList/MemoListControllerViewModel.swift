@@ -13,24 +13,21 @@ class MemoListControllerViewModel {
     
     // MARK:- Properties
     
-    lazy var memoDAO = MemoDAO()
+    var app = Application.shared
     
-    var memoList: [MemoData] = {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.memolist
-    }()
+    lazy var memoDAO = MemoDAO()
     
     // MARK:- Core Data Methods
     
     func fetchMemoList(completion: @escaping () -> ()) {
-        self.memoList = memoDAO.fetch()
+        app.memolist = memoDAO.fetch()
         completion()
     }
     
     func delete(indexPath: IndexPath, completion: @escaping () -> ()) {
-        let data = self.memoList[indexPath.row]
+        let data = app.memolist[indexPath.row]
         if memoDAO.delete(data.objectID!) {
-            memoList.remove(at: indexPath.row)
+            app.memolist.remove(at: indexPath.row)
             completion()
         }
     }

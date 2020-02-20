@@ -13,7 +13,7 @@ class Navigator {
     enum Scene {
         case memoList
         case memoAdd
-        case memoDetail
+        case memoDetail(indexPath: IndexPath)
     }
     
     func get(segue: Scene) -> UIViewController {
@@ -26,8 +26,9 @@ class Navigator {
             let viewModel = MemoAddControllerViewModel()
             let memoAddVC = MemoAddController(navigator: self, viewModel: viewModel)
             return memoAddVC
-        case .memoDetail:
-            let memoDetailVC = MemoDetailController()
+        case .memoDetail(let indexPath):
+            let viewModel = MemoDetailControllerViewModel(indexPath: indexPath)
+            let memoDetailVC = MemoDetailController(navigator: self, viewModel: viewModel)
             return memoDetailVC
         }
     }

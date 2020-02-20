@@ -12,7 +12,7 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var memolist = [MemoData]()
+//    var memolist = [MemoData]()
     
     // MARK:- App Execution Cycle
     

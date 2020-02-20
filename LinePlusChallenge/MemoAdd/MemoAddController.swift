@@ -20,14 +20,6 @@ class MemoAddController: ViewController {
     var memoTitle: String = ""
     var memoContents: String = ""
     
-//    func fetch() -> [NSManagedObject] {
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let context = appDelegate.persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
-//        let result = try! context.fetch(fetchRequest)
-//        return result
-//    }
-    
     // MARK:- UI Properties
     
     lazy var tableView: UITableView = {
@@ -38,8 +30,6 @@ class MemoAddController: ViewController {
         tv.separatorStyle = .none
         tv.dataSource = self
         tv.delegate = self
-        tv.register(MemoListCell.self,
-                    forCellReuseIdentifier: String(describing: MemoListCell.self))
         tv.register(MemoAddPhotoCell.self,
                     forCellReuseIdentifier: String(describing: MemoAddPhotoCell.self))
         tv.register(MemoAddTitleCell.self,

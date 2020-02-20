@@ -14,10 +14,10 @@ class MemoAddControllerViewModel {
     
     lazy var memoDAO = MemoDAO()
     
-    var memoList: [MemoData] = {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.memolist
-    }()
+//    var memoList: [MemoData] = {
+//        let application =
+//        return Application.shared.memolist
+//    }()
     
     // MARK:- Core Data Methods
     
