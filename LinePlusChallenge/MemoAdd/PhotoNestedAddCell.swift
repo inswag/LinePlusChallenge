@@ -8,7 +8,12 @@
 
 import UIKit
 
+
 class PhotoNestedAddCell: CollectionViewCell {
+    
+    // MARK:- Properties
+    
+    let notiCenter = NotificationCenter.default
     
     // MARK:- UI Properties
 
@@ -25,26 +30,8 @@ class PhotoNestedAddCell: CollectionViewCell {
     }()
     
     @objc func actionAddPhotos() {
-//        let alert = UIAlertController(title: nil,
-//                                      message: "어디서 사진을 가져올까요?",
-//                                      preferredStyle: .actionSheet)
-//        
-//        let voiceControllerAction = UIAlertAction(title: "",
-//                                                  style: .default,
-//                                                  handler: voiceHandler)
-//        
-//        let customWordAction = UIAlertAction(title: "나만의 단어장",
-//                                             style: .default,
-//                                             handler: customWordHandler)
-//        
-//        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-//        
-//        
-//        alert.addAction(voiceControllerAction)
-//        //        alert.addAction(customWordAction)
-//        alert.addAction(cancelAction)
-//        
-//        self.present(alert, animated: true, completion: nil)
+        notiCenter.post(name: NSNotification.Name(rawValue: "addPhotos"), object: nil, userInfo: nil)
+        print("OK")
     }
     
     // MARK:- Initialize

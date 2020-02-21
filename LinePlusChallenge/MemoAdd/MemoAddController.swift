@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import Foundation
 import UIKit
 
 
@@ -16,6 +17,9 @@ class MemoAddController: ViewController {
     
     let navigator: Navigator
     let viewModel: MemoAddControllerViewModel
+    
+    let notiCenter = NotificationCenter.default
+    let imagePicker = UIImagePickerController()
     
     var memoTitle: String = ""
     var memoContents: String = ""
@@ -53,7 +57,6 @@ class MemoAddController: ViewController {
                                               action: #selector(actionSave))
     
     @objc func actionSave() {
-        
         // 제목이 입력되지 않은 경우에 대한 alert 처리가 필요.
         guard self.memoTitle.isEmpty == false else {
             let alert = UIAlertController(title: nil,
@@ -65,11 +68,11 @@ class MemoAddController: ViewController {
             self.present(alert, animated: true)
             return
         }
-    
+        
         viewModel.insertMemo(title: self.memoTitle,
                              contents: self.memoContents)
         
-//        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK:- Initialize
@@ -88,16 +91,17 @@ class MemoAddController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        receivePost()
         // Do any additional setup after loading the view.
+        
     }
-    
     
     // MARK:- Methods
     
     override func setupUIComponents() {
         self.navigationItem.rightBarButtonItem = completeButton
         self.navigationItem.titleView = memoTitleLabel
-
+        
         self.view.backgroundColor = .white
         
         [tableView].forEach {
@@ -110,6 +114,114 @@ class MemoAddController: ViewController {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
     }
+    
+    override func setupImplementation() {
+        imagePicker.delegate = self
+    }
+    
+    // MARK: Alert Methods
+    
+    fileprivate func receivePost() {
+        notiCenter.addObserver(self,
+                               selector: #selector(actionChoice),
+                               name: NSNotification.Name(rawValue: "addPhotos"),
+                               object: nil)
+    }
+    
+    @objc func actionChoice() {
+        let alert = UIAlertController(title: nil,
+                                      message: "어디서 사진을 가져올까요?",
+                                      preferredStyle: .actionSheet)
+        let actionPhotoLibrary = UIAlertAction(title: "포토 라이브러리",
+                                               style: .default,
+                                               handler: actionPhotoLibrary(alert:))
+        let actionCamera = UIAlertAction(title: "카메라로 촬영",
+                                         style: .default,
+                                         handler: actionCamera(alert:))
+        let actionURL = UIAlertAction(title: "외부 URL로 가져오기",
+                                      style: .default,
+                                      handler: actionURL(alert:))
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        
+        alert.addAction(actionPhotoLibrary)
+        alert.addAction(actionCamera)
+        alert.addAction(actionURL)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func sendReference(of cell: PhotoNestedAddCell) {
+        //        self.cell = cell
+        
+        
+        
+        print("Receive OK")
+        let alert = UIAlertController(title: nil,
+                                      message: "어디서 사진을 가져올까요?",
+                                      preferredStyle: .actionSheet)
+        
+        let actionPhotoLibrary = UIAlertAction(title: "포토 라이브러리",
+                                               style: .default,
+                                               handler: actionPhotoLibrary(alert:))
+        
+        let actionCamera = UIAlertAction(title: "카메라로 촬영",
+                                         style: .default,
+                                         handler: actionCamera(alert:))
+        
+        let actionURL = UIAlertAction(title: "나만의 단어장",
+                                      style: .default,
+                                      handler: actionURL(alert:))
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        
+        alert.addAction(actionPhotoLibrary)
+        alert.addAction(actionCamera)
+        alert.addAction(actionURL)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    // MARK:- Alert Handler Methods
+    
+    fileprivate func actionPhotoLibrary(alert: UIAlertAction!) {
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    fileprivate func actionCamera(alert: UIAlertAction!) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .camera
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            print("Camera isn't available")
+        }
+    }
+    
+    fileprivate func actionURL(alert: UIAlertAction!) {
+        print("actionURL")
+    }
+    
+    
+    deinit {
+        notiCenter.removeObserver(self, name: NSNotification.Name("addPhotos"), object: nil)
+    }
+    
+    
+}
+
+// MARK:- Image Picker Controller Delegate 
+
+extension MemoAddController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
     
 }
 

@@ -11,6 +11,10 @@ import SnapKit
 
 class MemoDetailPhotoCell: TableViewCell {
 
+    // MARK:- Properties
+    
+    
+    
     // MARK:- UI Properties
     
     lazy var collectionView: UICollectionView = {
@@ -107,6 +111,7 @@ extension MemoDetailPhotoCell: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedCell.self), for: indexPath) as! PhotoNestedCell
         cell.backgroundColor = .purple
+        
         return cell
     }
     

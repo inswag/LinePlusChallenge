@@ -6,6 +6,7 @@
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {

@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class MemoDetailTitleCell: TableViewCell {
     
     // MARK:- Properties
