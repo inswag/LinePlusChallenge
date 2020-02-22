@@ -38,9 +38,16 @@ class MemoDAO {
                 data.regdate = record.regdate! as Date
                 data.objectID = record.objectID
                 
-                if let image = record.image as Data? {
-                    data.image = UIImage(data: image)
+//                data.images = record.images
+                
+                
+                if let images = record.images {
+                    data.images = NSKeyedUnarchiver.unarchiveObject(with: images) as? [UIImage]
                 }
+                
+//                if let image = record.image as Data? {
+//                    data.image = UIImage(data: image)
+//                }
                 
                 memolist.append(data)
                 
@@ -71,9 +78,9 @@ class MemoDAO {
                 data.regdate = record.regdate! as Date
                 data.objectID = record.objectID
                 
-                if let image = record.image as Data? {
-                    data.image = UIImage(data: image)
-                }
+//                if let image = record.image as Data? {
+//                    data.image = UIImage(data: image)
+//                }
                 
                 memolist.append(data)
             }
@@ -92,8 +99,9 @@ class MemoDAO {
         object.contents = data.contents
         object.regdate = data.regdate!
 
-        if let image = data.image {
-            object.image = image.pngData()!
+        if let images = data.images {
+//            object.image = image.pngData()!
+            object.images = NSKeyedArchiver.archivedData(withRootObject: images)
         }
         
         do {

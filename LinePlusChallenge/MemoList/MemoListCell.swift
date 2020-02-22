@@ -35,6 +35,7 @@ class MemoListCell: TableViewCell {
       didSet {
         titleLabel.text = viewModel.title
         contentsLabel.text = viewModel.contents
+        photoImageView.image = viewModel.image
       }
     }
     
@@ -42,7 +43,7 @@ class MemoListCell: TableViewCell {
     
     let photoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .lightGray
+        iv.backgroundColor = .white
         iv.layer.cornerRadius = UI.imageRadius
         iv.clipsToBounds = true
         return iv

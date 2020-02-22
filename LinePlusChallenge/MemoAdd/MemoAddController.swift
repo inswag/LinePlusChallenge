@@ -69,7 +69,7 @@ class MemoAddController: ViewController {
         }
         
         viewModel.insertMemo(title: self.memoTitle,
-                             contents: self.memoContents)
+                             contents: self.memoContents, images: images)
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -160,13 +160,7 @@ class MemoAddController: ViewController {
     }
     
     
-}
-
-// MARK:- Methods : Alert Handler Methods
-
-extension MemoAddController {
-    
-    fileprivate func actionPhotoLibrary(alert: UIAlertAction!) {
+    let libraryPicker: YPImagePicker = {
         var config = YPImagePickerConfiguration()
         config.library.maxNumberOfItems = 5
         config.isScrollToChangeModesEnabled = true
@@ -180,26 +174,42 @@ extension MemoAddController {
         config.hidesStatusBar = true
         config.hidesBottomBar = false
         config.preferredStatusBarStyle = UIStatusBarStyle.default
-        let picker = YPImagePicker(configuration: config)
+        let imagePicker = YPImagePicker(configuration: config)
+        return imagePicker
+    }()
+    
+    var images: [UIImage] = []
+    
+}
+
+// MARK:- Methods : Alert Handler Methods
+
+extension MemoAddController {
+    
+    fileprivate func actionPhotoLibrary(alert: UIAlertAction!) {
+        present(libraryPicker, animated: true, completion: nil)
         
-        picker.didFinishPicking { [unowned picker] items, cancelled in
+        libraryPicker.didFinishPicking { [unowned libraryPicker] items, cancelled in
             for item in items {
                 switch item {
                 case .photo(let photo):
                     print(photo)
+                    self.images.append(photo.image)
+                    print(self.images)
                 case .video(let video):
                     print(video)
                 }
             }
-            picker.dismiss(animated: true, completion: nil)
+            libraryPicker.dismiss(animated: true, completion: nil)
         }
-        
-        present(picker, animated: true, completion: nil)
         
     }
     
     fileprivate func actionCamera(alert: UIAlertAction!) {
-        let picker = YPImagePicker()
+        var config = YPImagePickerConfiguration()
+        config.screens = [.photo]
+        let picker = YPImagePicker(configuration: config)
+         
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
                 print(photo.fromCamera) // Image source (camera or library)

@@ -19,7 +19,7 @@ class MemoListCellViewModel {
     init(content: MemoData) {
         self.title = content.title
         self.contents = content.contents
-        self.image = content.image
+        self.image = content.images?.first ?? UIImage(named: "memoIcon")
     }
     
 }

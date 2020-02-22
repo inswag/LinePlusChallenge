@@ -23,11 +23,6 @@ class MemoAddControllerViewModel {
     
     lazy var memoDAO = MemoDAO()
     
-//    var memoList: [MemoData] = {
-//        let application =
-//        return Application.shared.memolist
-//    }()
-    
     // MARK:- Table View Data Source
     
     func numberOfRowsInSection() -> Int {
@@ -36,11 +31,14 @@ class MemoAddControllerViewModel {
     
     // MARK:- Core Data Methods
     
-    func insertMemo(title: String, contents: String) {
+    func insertMemo(title: String, contents: String, images: [UIImage]) {
         let data = MemoData()
         data.title = title
         data.contents = contents
         data.regdate = Date()
+        data.images = images
+    
+        
         self.memoDAO.insert(data)
     }
         

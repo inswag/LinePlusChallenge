@@ -13,7 +13,7 @@ class MemoData {
     var memoIdx: Int?
     var title: String?
     var contents: String?
-    var image: UIImage?
+    var images: [UIImage]?
     var regdate: Date?
 
     var objectID: NSManagedObjectID? // access to original object
