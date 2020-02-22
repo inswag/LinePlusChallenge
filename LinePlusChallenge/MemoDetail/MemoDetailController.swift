@@ -42,13 +42,41 @@ class MemoDetailController: ViewController {
         return label
     }()
     
-    lazy var completeButton = UIBarButtonItem(title: "Edit",
+    lazy var editButton = UIBarButtonItem(title: "Edit",
                                               style: .plain,
                                               target: self,
                                               action: #selector(actionEdit))
     
+    lazy var cutButton = UIBarButtonItem(title: "Cut",
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(actionCut))
+    
     @objc func actionEdit() {
         self.navigationController?.pushViewController(MemoModifyController(), animated: true)
+    }
+    
+    @objc func actionCut() {
+        let alert = UIAlertController(title: nil,
+                                      message: "메모를 삭제합니다",
+                                      preferredStyle: .actionSheet)
+        let cutAction = UIAlertAction(title: "삭제",
+                                      style: .default,
+                                      handler: actionDelete(alert:))
+        let cancelAction = UIAlertAction(title: "취소",
+                                         style: .default,
+                                         handler: nil)
+        
+        alert.addAction(cutAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    fileprivate func actionDelete(alert: UIAlertAction!) {
+        viewModel.delete()
+        self.navigationController?.popViewController(animated: true)
+        print("Delete")
     }
     
     // MARK:- Initialize
@@ -81,7 +109,7 @@ class MemoDetailController: ViewController {
     // MARK:- Methods
     
     override func setupUIComponents() {
-        self.navigationItem.rightBarButtonItem = completeButton
+        self.navigationItem.rightBarButtonItems = [editButton, cutButton]
         self.navigationItem.titleView = memoTitleLabel
         
         self.view.backgroundColor = .white
@@ -98,6 +126,8 @@ class MemoDetailController: ViewController {
     }
     
 }
+
+// MARK:- TableView Data Source
 
 extension MemoDetailController: UITableViewDataSource {
     
@@ -130,6 +160,8 @@ extension MemoDetailController: UITableViewDataSource {
     
     
 }
+
+// MARK:- Table View Delegate
 
 extension MemoDetailController: UITableViewDelegate {
     

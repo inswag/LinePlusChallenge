@@ -68,8 +68,6 @@ final class MemoListController: ViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     // MARK:- View Life Cycle
     
     override func viewDidLoad() {
@@ -83,7 +81,6 @@ final class MemoListController: ViewController {
         }
     }
     
-    
     // MARK:- Methods
     
     override func setupUIComponents() {
@@ -93,7 +90,6 @@ final class MemoListController: ViewController {
         [tableView].forEach {
             self.view.addSubview($0)
         }
-        
     }
     
     override func setupUILayout() {
@@ -124,7 +120,7 @@ extension MemoListController: UITableViewDataSource {
                                                            for: indexPath) as? MemoListCell else { return UITableViewCell() }
             cell.viewModel = MemoListCellViewModel(content: viewModel.memoList[indexPath.row])
             return cell
-        case .none:
+        case .none: // * need to refactor code
             guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoListCell.self),
                                                            for: indexPath) as? MemoListCell else { return UITableViewCell() }
             cell.viewModel = MemoListCellViewModel(content: viewModel.memoList[indexPath.row])

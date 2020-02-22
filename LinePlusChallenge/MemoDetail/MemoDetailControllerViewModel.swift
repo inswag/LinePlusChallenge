@@ -6,7 +6,10 @@
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
+import Foundation
 import UIKit
+
+
 
 class MemoDetailControllerViewModel {
     
@@ -16,7 +19,7 @@ class MemoDetailControllerViewModel {
     var memo: MemoData?             // Container
     
     let indexPath: IndexPath
-
+    
     // MARK:- Initialize
     
     init(indexPath: IndexPath) {
@@ -28,6 +31,15 @@ class MemoDetailControllerViewModel {
     func fetchSingle(completion: @escaping () -> ()) {
         self.memo = memoDAO.fetchSingle(indexPath: self.indexPath)
         completion()
+    }
+    
+    func delete() {
+        guard let data = self.memo else { return }
+        if self.memoDAO.delete(data.objectID!) {
+            print("success")
+        } else {
+            print("failure")
+        }
     }
     
     func numberOfRowsInSection() -> Int {

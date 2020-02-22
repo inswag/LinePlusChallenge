@@ -9,7 +9,7 @@
 import CoreData
 import Foundation
 import UIKit
-
+import YPImagePicker // Multiple Section for photos
 
 class MemoAddController: ViewController {
     
@@ -19,7 +19,6 @@ class MemoAddController: ViewController {
     let viewModel: MemoAddControllerViewModel
     
     let notiCenter = NotificationCenter.default
-    let imagePicker = UIImagePickerController()
     
     var memoTitle: String = ""
     var memoContents: String = ""
@@ -116,10 +115,10 @@ class MemoAddController: ViewController {
     }
     
     override func setupImplementation() {
-        imagePicker.delegate = self
+//        imagePicker.delegate = self
     }
     
-    // MARK: Alert Methods
+    // MARK: Notification Methods
     
     fileprivate func receivePost() {
         notiCenter.addObserver(self,
@@ -152,63 +151,9 @@ class MemoAddController: ViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+
     
-    func sendReference(of cell: PhotoNestedAddCell) {
-        //        self.cell = cell
-        
-        
-        
-        print("Receive OK")
-        let alert = UIAlertController(title: nil,
-                                      message: "어디서 사진을 가져올까요?",
-                                      preferredStyle: .actionSheet)
-        
-        let actionPhotoLibrary = UIAlertAction(title: "포토 라이브러리",
-                                               style: .default,
-                                               handler: actionPhotoLibrary(alert:))
-        
-        let actionCamera = UIAlertAction(title: "카메라로 촬영",
-                                         style: .default,
-                                         handler: actionCamera(alert:))
-        
-        let actionURL = UIAlertAction(title: "나만의 단어장",
-                                      style: .default,
-                                      handler: actionURL(alert:))
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        
-        alert.addAction(actionPhotoLibrary)
-        alert.addAction(actionCamera)
-        alert.addAction(actionURL)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    
-    // MARK:- Alert Handler Methods
-    
-    fileprivate func actionPhotoLibrary(alert: UIAlertAction!) {
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    fileprivate func actionCamera(alert: UIAlertAction!) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = .camera
-            present(imagePicker, animated: true, completion: nil)
-        } else {
-            print("Camera isn't available")
-        }
-    }
-    
-    fileprivate func actionURL(alert: UIAlertAction!) {
-        print("actionURL")
-    }
-    
+    // MARK:- Deinitialize
     
     deinit {
         notiCenter.removeObserver(self, name: NSNotification.Name("addPhotos"), object: nil)
@@ -217,11 +162,58 @@ class MemoAddController: ViewController {
     
 }
 
-// MARK:- Image Picker Controller Delegate 
+// MARK:- Methods : Alert Handler Methods
 
-extension MemoAddController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MemoAddController {
     
+    fileprivate func actionPhotoLibrary(alert: UIAlertAction!) {
+        var config = YPImagePickerConfiguration()
+        config.library.maxNumberOfItems = 5
+        config.isScrollToChangeModesEnabled = true
+        config.onlySquareImagesFromCamera = true
+        config.usesFrontCamera = false
+        config.startOnScreen = YPPickerScreen.photo
+        config.screens = [.library]
+        config.showsCrop = .none
+        config.targetImageSize = YPImageSize.original
+        config.overlayView = UIView()
+        config.hidesStatusBar = true
+        config.hidesBottomBar = false
+        config.preferredStatusBarStyle = UIStatusBarStyle.default
+        let picker = YPImagePicker(configuration: config)
+        
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            for item in items {
+                switch item {
+                case .photo(let photo):
+                    print(photo)
+                case .video(let video):
+                    print(video)
+                }
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+        
+        present(picker, animated: true, completion: nil)
+        
+    }
     
+    fileprivate func actionCamera(alert: UIAlertAction!) {
+        let picker = YPImagePicker()
+        picker.didFinishPicking { [unowned picker] items, _ in
+            if let photo = items.singlePhoto {
+                print(photo.fromCamera) // Image source (camera or library)
+                print(photo.image) // Final image selected by the user
+                print(photo.originalImage) // original image selected by the user, unfiltered
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+        present(picker, animated: true, completion: nil)
+    }
+    
+    fileprivate func actionURL(alert: UIAlertAction!) {
+        print("actionURL")
+    }
     
 }
 

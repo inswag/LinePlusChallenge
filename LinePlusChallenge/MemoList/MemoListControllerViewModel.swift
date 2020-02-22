@@ -10,6 +10,8 @@ import CoreData
 import UIKit
 
 final class MemoListControllerViewModel {
+
+    
     
     // MARK:- Cell Type
     

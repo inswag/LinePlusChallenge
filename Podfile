@@ -7,6 +7,8 @@ target 'LinePlusChallenge' do
 
 
   pod 'SnapKit'
+  pod 'YPImagePicker'
+  pod 'Kingfisher'
 
   # Pods for LinePlusChallenge
 

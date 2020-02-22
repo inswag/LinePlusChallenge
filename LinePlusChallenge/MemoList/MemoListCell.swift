@@ -38,7 +38,6 @@ class MemoListCell: TableViewCell {
       }
     }
     
-    
     // MARK:- UI Properties
     
     let photoImageView: UIImageView = {
@@ -52,6 +51,7 @@ class MemoListCell: TableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Title"
+        label.font = Tools.font.appleSDGothicNeoBold(size: 18)
         label.textColor = .black
         return label
     }()
@@ -59,6 +59,7 @@ class MemoListCell: TableViewCell {
     let contentsLabel: UILabel = {
         let label = UILabel()
         label.text = "Content\nContent"
+        label.font = Tools.font.appleSDGothicNeoRegular(size: 16)
         label.textColor = .black
         label.numberOfLines = 2
         return label
