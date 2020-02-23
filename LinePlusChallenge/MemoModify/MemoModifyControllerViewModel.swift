@@ -47,7 +47,9 @@ class MemoModifyControllerViewModel {
         completion()
     }
     
-    func insertMemo(title: String, contents: String, images: [UIImage]) {
+    func insertMemo(title: String,
+                    contents: String,
+                    images: [UIImage]) {
         let data = MemoData()
         data.title = title
         data.contents = contents
@@ -55,13 +57,17 @@ class MemoModifyControllerViewModel {
         data.images = images
         self.memoDAO.insert(data)
     }
-        
     
-    func editMemo(objectID: NSManagedObjectID, title: String, contents: String, images: [UIImage]?, completion: @escaping ()->() ) {
+    func editMemo(objectID: NSManagedObjectID,
+                  title: String,
+                  contents: String,
+                  images: [UIImage]?,
+                  completion: @escaping ()->() ) {
         if memoDAO.edit(objectID, title: title, contents: contents, images: images) {
             completion()
+        } else {
+            print("Error...")
         }
     }
-
     
 }

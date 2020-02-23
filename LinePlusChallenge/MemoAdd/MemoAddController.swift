@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import YPImagePicker // Multiple Selection for photos
+import Kingfisher    // https://github.com/onevcat/Kingfisher
+import YPImagePicker // https://github.com/Yummypets/YPImagePicker
 
 class MemoAddController: ViewController {
     
@@ -21,7 +22,7 @@ class MemoAddController: ViewController {
     var memoTitle: String = ""
     var memoContents: String = ""
     var images: [UIImage] = []
-   
+    var imageView: UIImageView = UIImageView()
     
     // MARK:- YPImagePicker Properties
     
@@ -245,8 +246,63 @@ extension MemoAddController {
     }
     
     fileprivate func actionURL(alert: UIAlertAction!) {
-        print("actionURL")
+        let alert = UIAlertController(title: "외부 URL로 가져오기", message: "아래에 주소를 넣어주세요", preferredStyle: .alert)
+        alert.addTextField { $0.placeholder = "URL" }
         
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: .default) { (_) in
+                                        
+                                        if let string = alert.textFields?[0].text {
+                                            if !string.isEmpty {
+                                                self.handleSuccess(string: string)
+                                            } else {
+                                                self.handleStringError()
+                                            }
+                                            
+                                        } else {
+                                            
+                                            
+                                        }
+                                        
+                                        
+                                        
+                                        })
+                                       
+    
+        
+        present(alert, animated: true)
+        
+    }
+    
+    fileprivate func handleStringError() {
+        let alert = UIAlertController(title: nil, message: "빈 값이 입력되었습니다", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+    
+    fileprivate func handleUrlError() {
+        let alert = UIAlertController(title: nil, message: "유효하지 않은 주소가 입력되었습니다", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+    
+    fileprivate func handleSuccess(string: String) {
+        guard let url = URL(string: string) else { return }
+        let resource = ImageResource(downloadURL: url)
+        
+        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { (result) in
+            switch result {
+            case .success(let value):
+                self.images.append(value.image)
+                self.tableView.reloadData()
+                self.notiCenter.post(name: NSNotification.Name("requestReload"),
+                                     object: nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+                self.handleUrlError()
+            }
+        }
     }
     
 }

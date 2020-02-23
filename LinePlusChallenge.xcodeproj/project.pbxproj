@@ -155,13 +155,6 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		E65CC2A324027BB200BE004E /* ExternalURL */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ExternalURL;
-			sourceTree = "<group>";
-		};
 		E670E03D23FA8D3D000A3FB3 /* MemoModify */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,7 +245,6 @@
 		E6B0567723F6961F00825D8A /* MemoAdd */ = {
 			isa = PBXGroup;
 			children = (
-				E65CC2A324027BB200BE004E /* ExternalURL */,
 				E6B0567823F6964C00825D8A /* MemoAddController.swift */,
 				E65CC26E23FCFE6400BE004E /* MemoAddControllerViewModel.swift */,
 				E6B0567D23F6CEAC00825D8A /* MemoAddPhotoCell.swift */,
