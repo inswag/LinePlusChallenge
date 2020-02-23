@@ -14,6 +14,7 @@ class Navigator {
         case memoList
         case memoAdd
         case memoDetail(indexPath: IndexPath)
+        case memoModify(indexPath: IndexPath)
     }
     
     func get(segue: Scene) -> UIViewController {
@@ -30,6 +31,10 @@ class Navigator {
             let viewModel = MemoDetailControllerViewModel(indexPath: indexPath)
             let memoDetailVC = MemoDetailController(navigator: self, viewModel: viewModel)
             return memoDetailVC
+        case .memoModify(let indexPath):
+            let viewModel = MemoModifyControllerViewModel(indexPath: indexPath)
+            let memoModifyVC = MemoModifyController(navigator: self, viewModel: viewModel)
+            return memoModifyVC
         }
     }
     

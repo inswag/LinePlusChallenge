@@ -1,14 +1,14 @@
 //
-//  MemoAddPhotoCell.swift
+//  MemoModifyPhotoCell.swift
 //  LinePlusChallenge
 //
-//  Created by Insu Park on 2020/02/14.
+//  Created by Insu Park on 2020/02/23.
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
 import UIKit
 
-class MemoAddPhotoCell: TableViewCell {
+class MemoModifyPhotoCell: TableViewCell {
 
     // MARK:- Properties
     
@@ -27,10 +27,10 @@ class MemoAddPhotoCell: TableViewCell {
         cv.setCollectionViewLayout(layout, animated: true)
         cv.dataSource = self
         cv.delegate = self
-        cv.register(PhotoNestedAddCell.self,
-                    forCellWithReuseIdentifier: String(describing: PhotoNestedAddCell.self))
-        cv.register(PhotoNestedImageCell.self,
-                    forCellWithReuseIdentifier: String(describing: PhotoNestedImageCell.self))
+        cv.register(ModifyPhotoNestedAddCell.self,
+                    forCellWithReuseIdentifier: String(describing: ModifyPhotoNestedAddCell.self))
+        cv.register(ModifyPhotoNestedImageCell.self,
+                    forCellWithReuseIdentifier: String(describing: ModifyPhotoNestedImageCell.self))
         return cv
     }()
     
@@ -41,12 +41,13 @@ class MemoAddPhotoCell: TableViewCell {
     }()
     
     
+    
     // MARK:- Initialize & Deinitialize
     
     override init(style: UITableViewCell.CellStyle,
                   reuseIdentifier: String?) {
         super.init(style: .default,
-                   reuseIdentifier: String(describing: MemoAddController.self))
+                   reuseIdentifier: String(describing: MemoModifyController.self))
         
         addObserver()
         
@@ -107,7 +108,7 @@ class MemoAddPhotoCell: TableViewCell {
 
 // MARK:- Collection View Data Source
 
-extension MemoAddPhotoCell: UICollectionViewDataSource {
+extension MemoModifyPhotoCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -118,13 +119,13 @@ extension MemoAddPhotoCell: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.item {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedAddCell.self),
-                                                                for: indexPath) as? PhotoNestedAddCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ModifyPhotoNestedAddCell.self),
+                                                                for: indexPath) as? ModifyPhotoNestedAddCell else { return UICollectionViewCell() }
             return cell
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedImageCell.self),
-                                                                for: indexPath) as? PhotoNestedImageCell else { return UICollectionViewCell() }
-            cell.viewModel = PhotoNestedImageCellViewModel(image: viewModel.images[indexPath.item - 1], indexPath: indexPath.item - 1)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ModifyPhotoNestedImageCell.self),
+                                                                for: indexPath) as? ModifyPhotoNestedImageCell else { return UICollectionViewCell() }
+            cell.viewModel = ModifyPhotoNestedImageCellViewModel(image: viewModel.images[indexPath.item - 1], indexPath: indexPath.item - 1)
             return cell
         }
     }
@@ -137,7 +138,7 @@ extension MemoAddPhotoCell: UICollectionViewDataSource {
 
 // MARK:- Collection View Delegate Flow Layout
 
-extension MemoAddPhotoCell: UICollectionViewDelegateFlowLayout {
+extension MemoModifyPhotoCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 56, height: 56)
@@ -148,3 +149,4 @@ extension MemoAddPhotoCell: UICollectionViewDelegateFlowLayout {
     }
     
 }
+

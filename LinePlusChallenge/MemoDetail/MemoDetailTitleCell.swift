@@ -25,6 +25,7 @@ class MemoDetailTitleCell: TableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.font = Tools.font.appleSDGothicNeoBold(size: 18)
         label.backgroundColor = UIColor.white
         label.text = "Test"
         return label

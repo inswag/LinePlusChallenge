@@ -53,7 +53,8 @@ class MemoDetailController: ViewController {
                                               action: #selector(actionCut))
     
     @objc func actionEdit() {
-        self.navigationController?.pushViewController(MemoModifyController(), animated: true)
+        let memoModifyVC = navigator.get(segue: .memoModify(indexPath: viewModel.indexPath))
+        self.navigationController?.pushViewController(memoModifyVC, animated: true)
     }
     
     @objc func actionCut() {

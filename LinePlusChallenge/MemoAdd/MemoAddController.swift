@@ -6,14 +6,10 @@
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
-import CoreData
-import Foundation
 import UIKit
-import YPImagePicker // Multiple Section for photos
+import YPImagePicker // Multiple Selection for photos
 
 class MemoAddController: ViewController {
-    
-    
     
     // MARK:- Properties
     
@@ -223,6 +219,8 @@ extension MemoAddController {
                                  object: nil)
             libraryPicker.dismiss(animated: true, completion: nil)
         }
+        
+
     }
     
     fileprivate func actionCamera(alert: UIAlertAction!) {
@@ -248,6 +246,7 @@ extension MemoAddController {
     
     fileprivate func actionURL(alert: UIAlertAction!) {
         print("actionURL")
+        
     }
     
 }
