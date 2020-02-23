@@ -59,7 +59,7 @@ class MemoDetailPhotoCell: TableViewCell {
         selectionStyle = .none
         clipsToBounds = true
         
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = .white
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         

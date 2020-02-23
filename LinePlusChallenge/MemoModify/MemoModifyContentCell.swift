@@ -18,6 +18,12 @@ class MemoModifyContentCell: TableViewCell {
     
     weak var delegate: MemoModifyContentCellDelegate?
     
+    var viewModel: MemoModifyContentCellViewModel! {
+        didSet {
+            contentTextView.text = viewModel.contents
+        }
+    }
+    
     // MARK:- UI Properties
     
     lazy var contentTextView: UITextView = {

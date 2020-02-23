@@ -96,7 +96,7 @@ class MemoDetailController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,6 +143,7 @@ extension MemoDetailController: UITableViewDataSource {
         switch MemoDetailControllerViewModel.CellType(rawValue: indexPath.row) {
         case .photo:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailPhotoCell.self), for: indexPath) as! MemoDetailPhotoCell
+            cell.backgroundColor = .orange
             cell.viewModel = MemoDetailPhotoCellViewModel(images: memo.images!)
             return cell
         case .title:

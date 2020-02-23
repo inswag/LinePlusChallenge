@@ -18,6 +18,12 @@ class MemoModifyTitleCell: TableViewCell {
     
     weak var delegate: MemoModifyTitleCellDelegate?
     
+    var viewModel: MemoModifyTitleCellViewModel! {
+        didSet {
+            titleTextField.text = viewModel.title
+        }
+    }
+    
     // MARK:- UI Properties
     
     lazy var titleTextField: UITextField = {

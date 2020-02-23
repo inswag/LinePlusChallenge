@@ -104,12 +104,7 @@ class MemoDAO {
         object.regdate = data.regdate!
 
         if let images = data.images {
-            if images.count == 0 {
-                let defaultImage = [UIImage(named: "memoIcon")]
-                object.images = NSKeyedArchiver.archivedData(withRootObject: defaultImage)
-            } else {
-                object.images = NSKeyedArchiver.archivedData(withRootObject: images)
-            }
+            object.images = NSKeyedArchiver.archivedData(withRootObject: images)
         }
 
         do {
@@ -127,6 +122,28 @@ class MemoDAO {
             return true
         } catch let error as NSError {
             NSLog("Error : ", error.localizedDescription)
+            return false
+        }
+    }
+    
+    func edit(_ objectID: NSManagedObjectID, title: String, contents: String, images: [UIImage]?) -> Bool {
+
+        let object = self.context.object(with: objectID)
+
+        object.setValue(title, forKey: "title")
+        object.setValue(contents, forKey: "contents")
+
+        if let images = images {
+            
+            let result = NSKeyedArchiver.archivedData(withRootObject: images)
+            object.setValue(result, forKey: "images")
+        }
+            
+        do {
+            try context.save()
+            return true
+        } catch {
+            context.rollback()
             return false
         }
     }

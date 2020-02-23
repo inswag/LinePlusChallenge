@@ -43,6 +43,7 @@ class MemoListCell: TableViewCell {
     
     let photoImageView: UIImageView = {
         let iv = UIImageView()
+        iv.image = UIImage(named: "memoIcon")
         iv.backgroundColor = .white
         iv.layer.cornerRadius = UI.imageRadius
         iv.clipsToBounds = true

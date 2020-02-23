@@ -19,6 +19,7 @@ class PhotoNestedCell: CollectionViewCell {
     let imageView: UIImageView = {
        let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFill
+        imgView.image = UIImage(named: "memoIcon")
         imgView.clipsToBounds = true
         imgView.backgroundColor = .white
         return imgView

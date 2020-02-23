@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import YPImagePicker // Multiple Selection For Photos
+import YPImagePicker // https://github.com/Yummypets/YPImagePicker
 
 class MemoModifyController: ViewController {
     
@@ -21,7 +21,6 @@ class MemoModifyController: ViewController {
     var memoTitle: String = ""
     var memoContents: String = ""
     var images: [UIImage] = []
-    
     
     // MARK:- YPImagePicker Properties
     
@@ -64,7 +63,7 @@ class MemoModifyController: ViewController {
     
     let memoTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Writing.."
+        label.text = "Editing.."
         label.textAlignment = .center
         label.textColor = UIColor.black
         return label
@@ -88,11 +87,19 @@ class MemoModifyController: ViewController {
             return
         }
         
-        viewModel.insertMemo(title: self.memoTitle,
-                             contents: self.memoContents,
-                             images: images)
+        print(self.memoTitle)
+        print(self.memoContents)
         
-        self.navigationController?.popViewController(animated: true)
+        // Insert 가 아닌 Modify 가 되어야지...
+//        viewModel.insertMemo(title: self.memoTitle,
+//                             contents: self.memoContents,
+//                             images: images)
+        
+        viewModel.editMemo(objectID: (viewModel.memo?.objectID)!, title: self.memoTitle, contents: self.memoContents, images: self.images) {
+            print("Success")
+        }
+        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     // MARK:- Initialize & Deinitialize
@@ -121,6 +128,7 @@ class MemoModifyController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         receivePost()
+        fetchMemoSingle()
     }
     
     // MARK:- UI Methods
@@ -140,6 +148,23 @@ class MemoModifyController: ViewController {
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    // MARK:- Methods
+    
+    func fetchMemoSingle() {
+        viewModel.fetchSingle {
+            self.tableView.reloadData()
+            self.sync() // 뷰 모델에서 데이터를 가져와 각 셀에 데이터를 뿌려줬지만, 실질적으로 Insert 하려는 이 뷰컨의 프로퍼티들은 nil 상태임. 그래서 싱크를 같게 맞춰줌.
+            self.notiCenter.post(name: NSNotification.Name(rawValue: "requestFetch"), object: nil)
+            print("Finish reload")
+        }
+    }
+    
+    func sync() {
+        self.memoTitle = viewModel.memo?.title ?? "제목 없음"
+        self.memoContents = viewModel.memo?.contents ?? "내용 없음"
+        self.images = viewModel.memo?.images ?? [UIImage(named: "memeIcon")!]
     }
     
     // MARK:- Noti Center Observers Methods
@@ -261,6 +286,9 @@ extension MemoModifyController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let memo = viewModel.memo else { return UITableViewCell() }
+        
         switch MemoModifyControllerViewModel.CellType(rawValue: indexPath.row) {
         case .photo:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyPhotoCell.self),
@@ -272,11 +300,13 @@ extension MemoModifyController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyTitleCell.self),
                                                      for: indexPath) as! MemoModifyTitleCell
             cell.delegate = self
+            cell.viewModel = MemoModifyTitleCellViewModel(contents: memo)
             return cell
         case .content:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyContentCell.self),
                                                      for: indexPath) as! MemoModifyContentCell
             cell.delegate = self
+            cell.viewModel = MemoModifyContentCellViewModel(contents: memo)
             return cell
         default :
             return UITableViewCell()

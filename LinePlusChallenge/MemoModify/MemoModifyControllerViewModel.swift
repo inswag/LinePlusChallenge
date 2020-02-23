@@ -6,7 +6,9 @@
 //  Copyright © 2020 INSWAG. All rights reserved.
 //
 
+import CoreData
 import UIKit
+
 
 class MemoModifyControllerViewModel {
     
@@ -40,17 +42,26 @@ class MemoModifyControllerViewModel {
     
     // MARK:- Core Data Methods
     
+    func fetchSingle(completion: @escaping () -> ()) {
+        self.memo = memoDAO.fetchSingle(indexPath: self.indexPath)
+        completion()
+    }
+    
     func insertMemo(title: String, contents: String, images: [UIImage]) {
         let data = MemoData()
         data.title = title
         data.contents = contents
         data.regdate = Date()
         data.images = images
-    
-        
         self.memoDAO.insert(data)
     }
         
+    
+    func editMemo(objectID: NSManagedObjectID, title: String, contents: String, images: [UIImage]?, completion: @escaping ()->() ) {
+        if memoDAO.edit(objectID, title: title, contents: contents, images: images) {
+            completion()
+        }
+    }
 
     
 }

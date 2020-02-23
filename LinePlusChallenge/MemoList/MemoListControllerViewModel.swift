@@ -11,8 +11,6 @@ import UIKit
 
 final class MemoListControllerViewModel {
 
-    
-    
     // MARK:- Cell Type
     
     enum CellType: Int {

@@ -40,8 +40,6 @@ class MemoModifyPhotoCell: TableViewCell {
         return view
     }()
     
-    
-    
     // MARK:- Initialize & Deinitialize
     
     override init(style: UITableViewCell.CellStyle,
@@ -60,6 +58,7 @@ class MemoModifyPhotoCell: TableViewCell {
         notiCenter.removeObserver(self,
                                   name: NSNotification.Name("requestDelete"),
                                   object: nil)
+        notiCenter.removeObserver(self, name: NSNotification.Name("requestFetch"), object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -93,6 +92,8 @@ class MemoModifyPhotoCell: TableViewCell {
     fileprivate func addObserver() {
         notiCenter.addObserver(self, selector: #selector(actionReloadByAdd), name: NSNotification.Name(rawValue: "requestReload"), object: nil)
         notiCenter.addObserver(self, selector: #selector(actionReloadByDelete), name: NSNotification.Name(rawValue: "requestDelete"), object: nil)
+        notiCenter.addObserver(self, selector: #selector(actionReloadByFetching), name: NSNotification.Name(rawValue: "requestFetch"), object: nil)
+
     }
     
     @objc func actionReloadByAdd() {
@@ -103,7 +104,10 @@ class MemoModifyPhotoCell: TableViewCell {
         self.collectionView.reloadData()
     }
     
-    
+    @objc func actionReloadByFetching() {
+        self.collectionView.reloadData()
+        print("Fetch finish")
+    }
 }
 
 // MARK:- Collection View Data Source
