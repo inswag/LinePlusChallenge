@@ -31,7 +31,6 @@ class PhotoNestedAddCell: CollectionViewCell {
     
     @objc func actionAddPhotos() {
         notiCenter.post(name: NSNotification.Name(rawValue: "addPhotos"), object: nil, userInfo: nil)
-        print("OK")
     }
     
     // MARK:- Initialize

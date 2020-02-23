@@ -13,6 +13,8 @@ import YPImagePicker // Multiple Section for photos
 
 class MemoAddController: ViewController {
     
+    
+    
     // MARK:- Properties
     
     let navigator: Navigator
@@ -22,6 +24,28 @@ class MemoAddController: ViewController {
     
     var memoTitle: String = ""
     var memoContents: String = ""
+    var images: [UIImage] = []
+   
+    
+    // MARK:- YPImagePicker Properties
+    
+    let libraryPicker: YPImagePicker = {
+        var config = YPImagePickerConfiguration()
+        config.library.maxNumberOfItems = 10
+        config.isScrollToChangeModesEnabled = true
+        config.onlySquareImagesFromCamera = true
+        config.usesFrontCamera = false
+        config.startOnScreen = YPPickerScreen.photo
+        config.screens = [.library]
+        config.showsCrop = .none
+        config.targetImageSize = YPImageSize.original
+        config.overlayView = UIView()
+        config.hidesStatusBar = true
+        config.hidesBottomBar = false
+        config.preferredStatusBarStyle = UIStatusBarStyle.default
+        let imagePicker = YPImagePicker(configuration: config)
+        return imagePicker
+    }()
     
     // MARK:- UI Properties
     
@@ -69,12 +93,13 @@ class MemoAddController: ViewController {
         }
         
         viewModel.insertMemo(title: self.memoTitle,
-                             contents: self.memoContents, images: images)
+                             contents: self.memoContents,
+                             images: images)
         
         self.navigationController?.popViewController(animated: true)
     }
     
-    // MARK:- Initialize
+    // MARK:- Initialize & Deinitialize
     
     init(navigator: Navigator, viewModel: MemoAddControllerViewModel) {
         self.navigator = navigator
@@ -86,16 +111,23 @@ class MemoAddController: ViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        notiCenter.removeObserver(self,
+                                  name: NSNotification.Name("addPhotos"),
+                                  object: nil)
+        notiCenter.removeObserver(self,
+                                  name: NSNotification.Name("deletePhotos"),
+                                  object: nil)
+    }
+    
     // MARK:- View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         receivePost()
-        // Do any additional setup after loading the view.
-        
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     override func setupUIComponents() {
         self.navigationItem.rightBarButtonItem = completeButton
@@ -114,75 +146,61 @@ class MemoAddController: ViewController {
         }
     }
     
-    override func setupImplementation() {
-//        imagePicker.delegate = self
-    }
-    
-    // MARK: Notification Methods
+    // MARK:- Noti Center Observers Methods
     
     fileprivate func receivePost() {
         notiCenter.addObserver(self,
                                selector: #selector(actionChoice),
                                name: NSNotification.Name(rawValue: "addPhotos"),
                                object: nil)
+        notiCenter.addObserver(self,
+                               selector: #selector(actionDelete),
+                               name: NSNotification.Name(rawValue: "deletePhotos"),
+                               object: nil)
     }
     
     @objc func actionChoice() {
-        let alert = UIAlertController(title: nil,
-                                      message: "어디서 사진을 가져올까요?",
-                                      preferredStyle: .actionSheet)
-        let actionPhotoLibrary = UIAlertAction(title: "포토 라이브러리",
-                                               style: .default,
-                                               handler: actionPhotoLibrary(alert:))
-        let actionCamera = UIAlertAction(title: "카메라로 촬영",
+           let alert = UIAlertController(title: nil,
+                                         message: "어디서 사진을 가져올까요?",
+                                         preferredStyle: .actionSheet)
+           let actionPhotoLibrary = UIAlertAction(title: "포토 라이브러리",
+                                                  style: .default,
+                                                  handler: actionPhotoLibrary(alert:))
+           let actionCamera = UIAlertAction(title: "카메라로 촬영",
+                                            style: .default,
+                                            handler: actionCamera(alert:))
+           let actionURL = UIAlertAction(title: "외부 URL로 가져오기",
                                          style: .default,
-                                         handler: actionCamera(alert:))
-        let actionURL = UIAlertAction(title: "외부 URL로 가져오기",
-                                      style: .default,
-                                      handler: actionURL(alert:))
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        
-        alert.addAction(actionPhotoLibrary)
-        alert.addAction(actionCamera)
-        alert.addAction(actionURL)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true, completion: nil)
+                                         handler: actionURL(alert:))
+           let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+           
+           
+           alert.addAction(actionPhotoLibrary)
+           alert.addAction(actionCamera)
+           alert.addAction(actionURL)
+           alert.addAction(cancelAction)
+           
+           self.present(alert, animated: true, completion: nil)
+       }
+    
+    @objc func actionDelete(_ notification: NSNotification) {
+        // 1. 삭제할 이미지 번호 수신
+        guard let number = notification.userInfo?["number"] as? Int else { return }
+        // 2. 이미지 배열에서 해당 번호의 이미지 삭제
+        self.images.remove(at: number)
+        // 3. 이미지 배열을 담당하는 테이블 뷰 첫 번째 Idx 지정
+        let indexPath = NSIndexPath(row: 0, section: 0)
+        // 4. idx 를 통한 부분 reload
+        self.tableView.reloadRows(at: [(indexPath as IndexPath)],
+                                  with: .none)
+        // 5. Reload 가 완료되었음을 알림
+        notiCenter.post(name: NSNotification.Name("requestDelete"),
+                             object: nil)
     }
-    
-
-    
-    // MARK:- Deinitialize
-    
-    deinit {
-        notiCenter.removeObserver(self, name: NSNotification.Name("addPhotos"), object: nil)
-    }
-    
-    
-    let libraryPicker: YPImagePicker = {
-        var config = YPImagePickerConfiguration()
-        config.library.maxNumberOfItems = 5
-        config.isScrollToChangeModesEnabled = true
-        config.onlySquareImagesFromCamera = true
-        config.usesFrontCamera = false
-        config.startOnScreen = YPPickerScreen.photo
-        config.screens = [.library]
-        config.showsCrop = .none
-        config.targetImageSize = YPImageSize.original
-        config.overlayView = UIView()
-        config.hidesStatusBar = true
-        config.hidesBottomBar = false
-        config.preferredStatusBarStyle = UIStatusBarStyle.default
-        let imagePicker = YPImagePicker(configuration: config)
-        return imagePicker
-    }()
-    
-    var images: [UIImage] = []
     
 }
 
-// MARK:- Methods : Alert Handler Methods
+// MARK:- Alert Methods
 
 extension MemoAddController {
     
@@ -190,19 +208,21 @@ extension MemoAddController {
         present(libraryPicker, animated: true, completion: nil)
         
         libraryPicker.didFinishPicking { [unowned libraryPicker] items, cancelled in
+            
             for item in items {
                 switch item {
                 case .photo(let photo):
-                    print(photo)
                     self.images.append(photo.image)
-                    print(self.images)
                 case .video(let video):
                     print(video)
                 }
             }
+            
+            self.tableView.reloadData()
+            self.notiCenter.post(name: NSNotification.Name("requestReload"),
+                                 object: nil)
             libraryPicker.dismiss(animated: true, completion: nil)
         }
-        
     }
     
     fileprivate func actionCamera(alert: UIAlertAction!) {
@@ -210,15 +230,20 @@ extension MemoAddController {
         config.screens = [.photo]
         let picker = YPImagePicker(configuration: config)
          
+        present(picker, animated: true, completion: nil)
+        
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
-                print(photo.fromCamera) // Image source (camera or library)
-                print(photo.image) // Final image selected by the user
-                print(photo.originalImage) // original image selected by the user, unfiltered
+                self.images.append(photo.image)
             }
-            picker.dismiss(animated: true, completion: nil)
+            
+            self.tableView.reloadData()
+            self.notiCenter.post(name: NSNotification.Name("requestReload"),
+                                 object: nil)
+            
+            picker.dismiss(animated: true)
         }
-        present(picker, animated: true, completion: nil)
+        
     }
     
     fileprivate func actionURL(alert: UIAlertAction!) {
@@ -242,6 +267,8 @@ extension MemoAddController: UITableViewDataSource {
         case .photo:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddPhotoCell.self),
                                                      for: indexPath) as! MemoAddPhotoCell
+            let images = self.images
+            cell.viewModel = MemoAddPhotoCellViewModel(images: images)
             return cell
         case .title:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddTitleCell.self),
@@ -277,6 +304,7 @@ extension MemoAddController: UITableViewDelegate {
 }
 
 // MARK:- TextField & TextView Delegate
+// MemoAddController want receive text values from tableView.
 
 extension MemoAddController: TextFieldDelegate, TextViewDelegate {
     

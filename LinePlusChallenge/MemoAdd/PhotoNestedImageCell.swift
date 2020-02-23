@@ -10,8 +10,18 @@ import UIKit
 
 class PhotoNestedImageCell: CollectionViewCell {
     
+    // MARK:- Properties
+    
+    let notiCenter = NotificationCenter.default
+    
     // MARK:- UI Properties
 
+    var viewModel: PhotoNestedImageCellViewModel! {
+        didSet {
+            photoImageView.image = viewModel.image
+        }
+    }
+    
     let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
@@ -22,7 +32,7 @@ class PhotoNestedImageCell: CollectionViewCell {
     
     lazy var typeButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("X", for: .normal)
+        btn.setTitle("x", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .black
         btn.layer.borderWidth = 1
@@ -34,10 +44,11 @@ class PhotoNestedImageCell: CollectionViewCell {
     }()
     
     @objc func actionDeletePhoto() {
-        print("ok")
+        let number: [String: Int] = ["number": viewModel.indexPath]
+        notiCenter.post(name: NSNotification.Name(rawValue: "deletePhotos"),
+                        object: nil,
+                        userInfo: number)
     }
-    
-    
     
     // MARK:- Initialize
     

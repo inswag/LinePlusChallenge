@@ -12,6 +12,12 @@ import UIKit
 
 class PhotoNestedCell: CollectionViewCell {
     
+    var viewModel: PhotoNestedCellViewModel! {
+        didSet {
+            imageView.image = viewModel.photo
+        }
+    }
+    
     let imageView: UIImageView = {
        let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFill

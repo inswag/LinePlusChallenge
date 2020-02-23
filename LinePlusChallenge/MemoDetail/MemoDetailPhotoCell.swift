@@ -13,7 +13,11 @@ class MemoDetailPhotoCell: TableViewCell {
 
     // MARK:- Properties
     
-    
+    var viewModel: MemoDetailPhotoCellViewModel! {
+        didSet {
+            progressView.setProgress(Float(0.0 / collectionView.frame.width) + 1 / Float(viewModel.images.count), animated: false)
+        }
+    }
     
     // MARK:- UI Properties
     
@@ -34,7 +38,7 @@ class MemoDetailPhotoCell: TableViewCell {
     lazy var progressView: UIProgressView = {
         let pgView = UIProgressView()
         pgView.progressTintColor = UIColor.white
-        pgView.trackTintColor = UIColor.rgb(r: 0, g: 0, b: 10, a: 0.36)
+        pgView.trackTintColor = UIColor.black
         return pgView
     }()
     
@@ -51,11 +55,9 @@ class MemoDetailPhotoCell: TableViewCell {
     // MARK:- Methods
     
     override func setupUIComponents() {
-        backgroundColor = .black
+        backgroundColor = .white
         selectionStyle = .none
-        layer.cornerRadius = 30
         clipsToBounds = true
-//        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         collectionView.backgroundColor = .black
         collectionView.isPagingEnabled = true
@@ -82,41 +84,25 @@ class MemoDetailPhotoCell: TableViewCell {
             m.height.equalTo(4)
         }
     }
-    
 
-    
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-    }
-    
-//    var imageSet: [String] = [] {
-//        didSet {
-//            self.progressView.setProgress(Float(1.0) / Float(self.imageSet.count), animated: false)
-//            self.collectionView.reloadData()
-//        }
-//    }
-    
 }
 
 extension MemoDetailPhotoCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.numberOfItemsInSection()
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedCell.self), for: indexPath) as! PhotoNestedCell
-        cell.backgroundColor = .purple
-        
+        cell.viewModel = PhotoNestedCellViewModel(photo: viewModel.images[indexPath.item])
         return cell
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        progressView.progress = Float((scrollView.contentOffset.x / collectionView.frame.width) + 1) / Float(self.imageSet.count)
+        progressView.progress = Float((scrollView.contentOffset.x / collectionView.frame.width) + 1) / Float(viewModel.images.count)
     }
     
 }

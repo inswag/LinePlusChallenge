@@ -8,9 +8,12 @@
 
 import UIKit
 
-// Cell Height : 72
 class MemoAddPhotoCell: TableViewCell {
 
+    // MARK:- Properties
+    
+    var viewModel: MemoAddPhotoCellViewModel!
+    
     // MARK: - UI Properties
     
     lazy var collectionView: UICollectionView = {
@@ -19,6 +22,7 @@ class MemoAddPhotoCell: TableViewCell {
         let cv = UICollectionView(frame: CGRect.zero,
                                   collectionViewLayout: layout)
         cv.backgroundColor = .white
+        cv.showsHorizontalScrollIndicator = false
         cv.setCollectionViewLayout(layout, animated: true)
         cv.dataSource = self
         cv.delegate = self
@@ -35,12 +39,26 @@ class MemoAddPhotoCell: TableViewCell {
         return view
     }()
     
-    // MARK:- Initialize
+    let notiCenter = NotificationCenter.default
+    
+    // MARK:- Initialize & Deinitialize
     
     override init(style: UITableViewCell.CellStyle,
                   reuseIdentifier: String?) {
         super.init(style: .default,
                    reuseIdentifier: String(describing: MemoAddController.self))
+        
+        addObserver()
+        
+    }
+    
+    deinit {
+        notiCenter.removeObserver(self,
+                                  name: NSNotification.Name("requestReload"),
+                                  object: nil)
+        notiCenter.removeObserver(self,
+                                  name: NSNotification.Name("requestDelete"),
+                                  object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -71,6 +89,20 @@ class MemoAddPhotoCell: TableViewCell {
         }
     }
     
+    fileprivate func addObserver() {
+        notiCenter.addObserver(self, selector: #selector(actionReloadByAdd), name: NSNotification.Name(rawValue: "requestReload"), object: nil)
+        notiCenter.addObserver(self, selector: #selector(actionReloadByDelete), name: NSNotification.Name(rawValue: "requestDelete"), object: nil)
+    }
+    
+    @objc func actionReloadByAdd() {
+        self.collectionView.reloadData()
+    }
+    
+    @objc func actionReloadByDelete() {
+        self.collectionView.reloadData()
+    }
+    
+    
 }
 
 // MARK:- Collection View Data Source
@@ -79,26 +111,27 @@ extension MemoAddPhotoCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.numberOfItemsInSection()
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        switch indexPath.row {
+        switch indexPath.item {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedAddCell.self),
-                                                          for: indexPath) as? PhotoNestedAddCell ?? UICollectionViewCell()
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedAddCell.self),
+                                                                for: indexPath) as? PhotoNestedAddCell else { return UICollectionViewCell() }
             return cell
         default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedImageCell.self),
-                                                          for: indexPath) as? PhotoNestedImageCell ?? UICollectionViewCell()
-            cell.backgroundColor = .orange
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedImageCell.self),
+                                                                for: indexPath) as? PhotoNestedImageCell else { return UICollectionViewCell() }
+            cell.viewModel = PhotoNestedImageCellViewModel(image: viewModel.images[indexPath.item - 1], indexPath: indexPath.item - 1)
             return cell
         }
-        
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.item)
+    }
     
 }
 
@@ -113,4 +146,5 @@ extension MemoAddPhotoCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
+    
 }

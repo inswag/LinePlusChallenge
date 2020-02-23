@@ -20,6 +20,7 @@ class MemoDAO {
     
     // MARK:- Methods
     
+    // For MemoList
     func fetch() -> [MemoData] {
         var memolist = [MemoData]()
         
@@ -59,6 +60,8 @@ class MemoDAO {
         return memolist
     }
     
+    
+    // For MemoDetail & Modify
     func fetchSingle(indexPath: IndexPath) -> MemoData {
         var memolist = [MemoData]()
         
@@ -78,9 +81,10 @@ class MemoDAO {
                 data.regdate = record.regdate! as Date
                 data.objectID = record.objectID
                 
-//                if let image = record.image as Data? {
-//                    data.image = UIImage(data: image)
-//                }
+                if let images = record.images {
+                    //            object.image = image.pngData()!
+                    data.images = NSKeyedUnarchiver.unarchiveObject(with: images) as? [UIImage]
+                }
                 
                 memolist.append(data)
             }
@@ -91,7 +95,7 @@ class MemoDAO {
         return memolist[indexPath.row]
     }
     
-
+    // For MemoAdd
     func insert(_ data: MemoData) {
         let object = NSEntityDescription.insertNewObject(forEntityName: "Memo",
                                                          into: self.context) as! MemoMO
@@ -100,23 +104,24 @@ class MemoDAO {
         object.regdate = data.regdate!
 
         if let images = data.images {
-//            object.image = image.pngData()!
-            object.images = NSKeyedArchiver.archivedData(withRootObject: images)
+            if images.count == 0 {
+                let defaultImage = [UIImage(named: "memoIcon")]
+                object.images = NSKeyedArchiver.archivedData(withRootObject: defaultImage)
+            } else {
+                object.images = NSKeyedArchiver.archivedData(withRootObject: images)
+            }
         }
-        
+
         do {
             try self.context.save()
         } catch let error as NSError {
             NSLog("Error :", error.localizedDescription)
         }
-        
     }
     
     func delete(_ objectID: NSManagedObjectID) -> Bool {
-        
         let object = self.context.object(with: objectID)
         self.context.delete(object)
-        
         do {
             try self.context.save()
             return true
@@ -124,11 +129,6 @@ class MemoDAO {
             NSLog("Error : ", error.localizedDescription)
             return false
         }
-        
     }
-    
-    
-    
-    
     
 }

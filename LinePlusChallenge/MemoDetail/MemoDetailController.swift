@@ -139,17 +139,16 @@ extension MemoDetailController: UITableViewDataSource {
         
         guard let memo = viewModel.memo else { return UITableViewCell() }
         
-        switch indexPath.row {
-        case 0:
+        switch MemoDetailControllerViewModel.CellType(rawValue: indexPath.row) {
+        case .photo:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailPhotoCell.self), for: indexPath) as! MemoDetailPhotoCell
-            cell.backgroundColor = .red
+            cell.viewModel = MemoDetailPhotoCellViewModel(images: memo.images!)
             return cell
-        case 1:
+        case .title:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailTitleCell.self), for: indexPath) as! MemoDetailTitleCell
             cell.viewModel = MemoDetailTitleCellViewModel(contents: memo)
-            
             return cell
-        case 2:
+        case .content:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailContentCell.self), for: indexPath) as! MemoDetailContentCell
             cell.viewModel = MemoDetailContentCellViewModel(contents: memo)
             return cell

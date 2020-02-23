@@ -20,6 +20,9 @@
 		E65CC28423FE6DF400BE004E /* MemoDetailTitleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC28323FE6DF400BE004E /* MemoDetailTitleCellViewModel.swift */; };
 		E65CC28623FE771E00BE004E /* MemoDetailContentCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC28523FE771E00BE004E /* MemoDetailContentCellViewModel.swift */; };
 		E65CC28823FEDDE800BE004E /* MemoAddPhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC28723FEDDE800BE004E /* MemoAddPhotoCellViewModel.swift */; };
+		E65CC28A24014EE500BE004E /* MemoDetailPhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC28924014EE500BE004E /* MemoDetailPhotoCellViewModel.swift */; };
+		E65CC28C2401543C00BE004E /* PhotoNestedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC28B2401543C00BE004E /* PhotoNestedCellViewModel.swift */; };
+		E65CC28E24016C1C00BE004E /* PhotoNestedImageCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC28D24016C1C00BE004E /* PhotoNestedImageCellViewModel.swift */; };
 		E670E03623F90785000A3FB3 /* PhotoNestedAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03523F90785000A3FB3 /* PhotoNestedAddCell.swift */; };
 		E670E03823F90816000A3FB3 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03723F90816000A3FB3 /* CollectionViewCell.swift */; };
 		E670E03A23F91B7D000A3FB3 /* PhotoNestedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670E03923F91B7D000A3FB3 /* PhotoNestedImageCell.swift */; };
@@ -62,6 +65,9 @@
 		E65CC28323FE6DF400BE004E /* MemoDetailTitleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailTitleCellViewModel.swift; sourceTree = "<group>"; };
 		E65CC28523FE771E00BE004E /* MemoDetailContentCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailContentCellViewModel.swift; sourceTree = "<group>"; };
 		E65CC28723FEDDE800BE004E /* MemoAddPhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddPhotoCellViewModel.swift; sourceTree = "<group>"; };
+		E65CC28924014EE500BE004E /* MemoDetailPhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailPhotoCellViewModel.swift; sourceTree = "<group>"; };
+		E65CC28B2401543C00BE004E /* PhotoNestedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNestedCellViewModel.swift; sourceTree = "<group>"; };
+		E65CC28D24016C1C00BE004E /* PhotoNestedImageCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNestedImageCellViewModel.swift; sourceTree = "<group>"; };
 		E670E03523F90785000A3FB3 /* PhotoNestedAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNestedAddCell.swift; sourceTree = "<group>"; };
 		E670E03723F90816000A3FB3 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		E670E03923F91B7D000A3FB3 /* PhotoNestedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNestedImageCell.swift; sourceTree = "<group>"; };
@@ -215,6 +221,7 @@
 				E65CC28723FEDDE800BE004E /* MemoAddPhotoCellViewModel.swift */,
 				E670E03523F90785000A3FB3 /* PhotoNestedAddCell.swift */,
 				E670E03923F91B7D000A3FB3 /* PhotoNestedImageCell.swift */,
+				E65CC28D24016C1C00BE004E /* PhotoNestedImageCellViewModel.swift */,
 				E6B0567F23F6CFA300825D8A /* MemoAddTitleCell.swift */,
 				E6CF442323F7CD5700D1E29A /* MemoAddContentCell.swift */,
 			);
@@ -236,7 +243,9 @@
 				E6CF442623F7DBF400D1E29A /* MemoDetailController.swift */,
 				E65CC28123FD1DC600BE004E /* MemoDetailControllerViewModel.swift */,
 				E65CC27223FD130200BE004E /* MemoDetailPhotoCell.swift */,
+				E65CC28924014EE500BE004E /* MemoDetailPhotoCellViewModel.swift */,
 				E65CC27423FD132C00BE004E /* PhotoNestedCell.swift */,
+				E65CC28B2401543C00BE004E /* PhotoNestedCellViewModel.swift */,
 				E65CC27623FD136800BE004E /* MemoDetailTitleCell.swift */,
 				E65CC28323FE6DF400BE004E /* MemoDetailTitleCellViewModel.swift */,
 				E65CC27823FD138200BE004E /* MemoDetailContentCell.swift */,
@@ -367,6 +376,7 @@
 				E6B0567223F6819F00825D8A /* Application.swift in Sources */,
 				E670E03823F90816000A3FB3 /* CollectionViewCell.swift in Sources */,
 				E65CC28823FEDDE800BE004E /* MemoAddPhotoCellViewModel.swift in Sources */,
+				E65CC28A24014EE500BE004E /* MemoDetailPhotoCellViewModel.swift in Sources */,
 				E68949BC23F5168B009C2D8A /* ViewController.swift in Sources */,
 				E670E04323FC0662000A3FB3 /* MemoListCellViewModel.swift in Sources */,
 				E6CF442423F7CD5700D1E29A /* MemoAddContentCell.swift in Sources */,
@@ -383,6 +393,7 @@
 				E65CC28223FD1DC600BE004E /* MemoDetailControllerViewModel.swift in Sources */,
 				E6B0566D23F66CD600825D8A /* TableViewCell.swift in Sources */,
 				E6CF442723F7DBF400D1E29A /* MemoDetailController.swift in Sources */,
+				E65CC28E24016C1C00BE004E /* PhotoNestedImageCellViewModel.swift in Sources */,
 				E670E03623F90785000A3FB3 /* PhotoNestedAddCell.swift in Sources */,
 				E670E03A23F91B7D000A3FB3 /* PhotoNestedImageCell.swift in Sources */,
 				E65CC27523FD132C00BE004E /* PhotoNestedCell.swift in Sources */,
@@ -392,6 +403,7 @@
 				E65CC28423FE6DF400BE004E /* MemoDetailTitleCellViewModel.swift in Sources */,
 				E65CC27923FD138200BE004E /* MemoDetailContentCell.swift in Sources */,
 				E68949B823F5168B009C2D8A /* AppDelegate.swift in Sources */,
+				E65CC28C2401543C00BE004E /* PhotoNestedCellViewModel.swift in Sources */,
 				E670E04123FBF466000A3FB3 /* MemoListControllerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
