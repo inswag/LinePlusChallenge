@@ -16,7 +16,7 @@ class MemoModifyPhotoCellViewModel {
     
     // MARK:- Collection View Cell Type
     
-    enum CellType {
+    enum CellType: Int {
         case add
         case photos
     }

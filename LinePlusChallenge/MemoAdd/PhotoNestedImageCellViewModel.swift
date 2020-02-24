@@ -13,7 +13,6 @@ class PhotoNestedImageCellViewModel {
     // MARK:- Properties
 
     let image: UIImage
-    
     let indexPath: Int  // for delete of cell
     
     // MARK:- Initializer

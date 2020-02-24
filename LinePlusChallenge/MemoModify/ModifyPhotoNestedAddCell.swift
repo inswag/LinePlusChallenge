@@ -19,7 +19,7 @@ class ModifyPhotoNestedAddCell: CollectionViewCell {
 
     lazy var typeButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Add", for: .normal)
+        btn.setImage(UIImage(named: "add_icon"), for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.layer.borderWidth = 1
         btn.layer.borderColor = UIColor.black.cgColor

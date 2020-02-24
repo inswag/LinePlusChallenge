@@ -9,6 +9,5 @@
 import Foundation
 
 struct Tools {
-    static let color = Color()
     static let font = Font()
 }

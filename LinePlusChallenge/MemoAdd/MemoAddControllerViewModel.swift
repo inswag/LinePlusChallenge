@@ -37,11 +37,7 @@ class MemoAddControllerViewModel {
         data.contents = contents
         data.regdate = Date()
         data.images = images
-    
-        
         self.memoDAO.insert(data)
     }
-        
-
     
 }

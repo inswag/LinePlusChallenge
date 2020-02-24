@@ -13,15 +13,14 @@ class PhotoNestedImageCell: CollectionViewCell {
     // MARK:- Properties
     
     let notiCenter = NotificationCenter.default
-    
-    // MARK:- UI Properties
-
     var viewModel: PhotoNestedImageCellViewModel! {
         didSet {
             photoImageView.image = viewModel.image
         }
     }
     
+    // MARK:- UI Properties
+
     let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
@@ -32,9 +31,9 @@ class PhotoNestedImageCell: CollectionViewCell {
     
     lazy var typeButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("x", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = .black
+        btn.setImage(UIImage(named: "photo_delete_icon")?.withRenderingMode(.alwaysOriginal),
+                     for: .normal)
+        btn.backgroundColor = .white
         btn.layer.borderWidth = 1
         btn.layer.borderColor = UIColor.black.cgColor
         btn.layer.cornerRadius = 8
@@ -59,6 +58,8 @@ class PhotoNestedImageCell: CollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK:- UI Methods
     
     override func setupUIComponents() {
         [photoImageView].forEach {

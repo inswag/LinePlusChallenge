@@ -42,20 +42,34 @@ class MemoDetailController: ViewController {
         return label
     }()
     
-    lazy var editButton = UIBarButtonItem(title: "Edit",
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(actionEdit))
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "back_icon")?.withRenderingMode(.alwaysOriginal),
+                        for: .normal)
+        button.addTarget(self, action: #selector(actionBack), for: .touchUpInside)
+        return button
+    }()
     
-    lazy var cutButton = UIBarButtonItem(title: "Cut",
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(actionCut))
+    lazy var backBarButton = UIBarButtonItem(customView: backButton)
+    lazy var editButton = UIBarButtonItem(image: UIImage(named: "edit_icon")?.withRenderingMode(.alwaysOriginal),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(actionEdit))
+    lazy var cutButton = UIBarButtonItem(image: UIImage(named: "delete_icon")?.withRenderingMode(.alwaysOriginal),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(actionCut))
+    
+    @objc func actionBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @objc func actionEdit() {
         let memoModifyVC = navigator.get(segue: .memoModify(indexPath: viewModel.indexPath))
         self.navigationController?.pushViewController(memoModifyVC, animated: true)
     }
+    
+    // Alert
     
     @objc func actionCut() {
         let alert = UIAlertController(title: nil,
@@ -106,10 +120,10 @@ class MemoDetailController: ViewController {
         }
     }
     
-    
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     override func setupUIComponents() {
+        self.navigationItem.leftBarButtonItem = backBarButton
         self.navigationItem.rightBarButtonItems = [editButton, cutButton]
         self.navigationItem.titleView = memoTitleLabel
         
@@ -137,28 +151,28 @@ extension MemoDetailController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let memo = viewModel.memo else { return UITableViewCell() }
         
         switch MemoDetailControllerViewModel.CellType(rawValue: indexPath.row) {
         case .photo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailPhotoCell.self), for: indexPath) as! MemoDetailPhotoCell
-            cell.backgroundColor = .orange
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailPhotoCell.self),
+                                                           for: indexPath) as? MemoDetailPhotoCell else { return UITableViewCell() }
             cell.viewModel = MemoDetailPhotoCellViewModel(images: memo.images!)
             return cell
         case .title:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailTitleCell.self), for: indexPath) as! MemoDetailTitleCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailTitleCell.self),
+                                                           for: indexPath) as? MemoDetailTitleCell else { return UITableViewCell() }
             cell.viewModel = MemoDetailTitleCellViewModel(contents: memo)
             return cell
         case .content:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailContentCell.self), for: indexPath) as! MemoDetailContentCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoDetailContentCell.self),
+                                                           for: indexPath) as? MemoDetailContentCell else { return UITableViewCell() }
             cell.viewModel = MemoDetailContentCellViewModel(contents: memo)
             return cell
         default:
             return UITableViewCell()
         }
     }
-    
     
 }
 

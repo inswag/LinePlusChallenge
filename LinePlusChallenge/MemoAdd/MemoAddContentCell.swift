@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TextViewDelegate: class {
+protocol MemoAddContentCellDelegate: class {
     func sendDataFromTV(text: String)
 }
 
@@ -16,7 +16,7 @@ class MemoAddContentCell: TableViewCell {
 
     // MARK:- Properties
     
-    weak var delegate: TextViewDelegate?
+    weak var delegate: MemoAddContentCellDelegate?
     
     // MARK:- UI Properties
     
@@ -24,6 +24,7 @@ class MemoAddContentCell: TableViewCell {
         let textView = UITextView()
         textView.backgroundColor = .white
         textView.text = "내용"
+        textView.font = Tools.font.appleSDGothicNeoRegular(size: 16)
         textView.textColor = .black
         textView.delegate = self
         return textView
@@ -35,14 +36,13 @@ class MemoAddContentCell: TableViewCell {
                   reuseIdentifier: String?) {
         super.init(style: .default,
                    reuseIdentifier: String(describing: MemoAddController.self))
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     internal override func setupUIComponents() {
         self.backgroundColor = .white

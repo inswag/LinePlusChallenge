@@ -19,6 +19,8 @@ class MemoDetailPhotoCellViewModel {
     init(images: [UIImage]) {
         self.images = images
     }
+    
+    // MARK:- Collection View Data Source Methods
  
     func numberOfItemsInSection() -> Int {
         return images.count

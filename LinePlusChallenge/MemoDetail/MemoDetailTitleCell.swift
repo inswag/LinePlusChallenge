@@ -12,8 +12,6 @@ class MemoDetailTitleCell: TableViewCell {
     
     // MARK:- Properties
     
-    weak var delegate: TextFieldDelegate?
-    
     var viewModel: MemoDetailTitleCellViewModel! {
         didSet {
             titleLabel.text = viewModel.title
@@ -49,7 +47,7 @@ class MemoDetailTitleCell: TableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     internal override func setupUIComponents() {
         [titleLabel, borderView].forEach {

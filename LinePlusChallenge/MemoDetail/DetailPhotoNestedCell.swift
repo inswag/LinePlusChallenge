@@ -1,5 +1,5 @@
 //
-//  PhotoNestedCell.swift
+//  DetailPhotoNestedCell.swift
 //  LinePlusChallenge
 //
 //  Created by Insu Park on 2020/02/19.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class PhotoNestedCell: CollectionViewCell {
+class DetailPhotoNestedCell: CollectionViewCell {
     
-    var viewModel: PhotoNestedCellViewModel! {
+    var viewModel: DetailPhotoNestedCellViewModel! {
         didSet {
             imageView.image = viewModel.photo
         }
@@ -31,12 +31,6 @@ class PhotoNestedCell: CollectionViewCell {
         setupUIComponents()
     }
     
-    func configure(content: String) {
-//        let urlString = URL(string: content)
-//        self.imageView.kf.setImage(with: urlString)
-//        self.scrollView.contentSize
-    }
-    
     override func setupUIComponents() {
         self.contentView.addSubview(imageView)
         self.imageView.snp.makeConstraints { (m) in
@@ -44,10 +38,6 @@ class PhotoNestedCell: CollectionViewCell {
             m.leading.equalToSuperview()
             m.trailing.equalToSuperview()
             m.bottom.equalToSuperview()
-//            m.top.equalTo(self.scrollView.snp.top)
-//            m.leading.equalTo(self.scrollView.snp.leading)
-//            m.trailing.equalTo(self.scrollView.snp.trailing)
-//            m.bottom.equalTo(self.scrollView.snp.bottom)
         }
         
     }

@@ -12,6 +12,13 @@ import YPImagePicker // https://github.com/Yummypets/YPImagePicker
 
 class MemoAddController: ViewController {
     
+    // MARK:- Constant
+    
+    struct UI {
+        static let defaultHeight: CGFloat = 72
+        static let contentsCellHeight: CGFloat = 500
+    }
+    
     // MARK:- Properties
     
     let navigator: Navigator
@@ -71,6 +78,19 @@ class MemoAddController: ViewController {
         return label
     }()
     
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "back_icon")?.withRenderingMode(.alwaysOriginal),
+                        for: .normal)
+        button.addTarget(self, action: #selector(actionBack), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func actionBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    lazy var backBarButton = UIBarButtonItem(customView: backButton)
     lazy var completeButton = UIBarButtonItem(title: "Save",
                                               style: .plain,
                                               target: self,
@@ -127,6 +147,7 @@ class MemoAddController: ViewController {
     // MARK:- UI Methods
     
     override func setupUIComponents() {
+        self.navigationItem.leftBarButtonItem = backBarButton
         self.navigationItem.rightBarButtonItem = completeButton
         self.navigationItem.titleView = memoTitleLabel
         
@@ -252,27 +273,15 @@ extension MemoAddController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK",
                                       style: .default) { (_) in
-                                        
                                         if let string = alert.textFields?[0].text {
                                             if !string.isEmpty {
                                                 self.handleSuccess(string: string)
                                             } else {
                                                 self.handleStringError()
                                             }
-                                            
-                                        } else {
-                                            
-                                            
                                         }
-                                        
-                                        
-                                        
-                                        })
-                                       
-    
-        
+        })
         present(alert, animated: true)
-        
     }
     
     fileprivate func handleStringError() {
@@ -320,19 +329,19 @@ extension MemoAddController: UITableViewDataSource {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch MemoAddControllerViewModel.CellType(rawValue: indexPath.row) {
         case .photo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddPhotoCell.self),
-                                                     for: indexPath) as! MemoAddPhotoCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddPhotoCell.self),
+                                                           for: indexPath) as? MemoAddPhotoCell else { return UITableViewCell() }
             let images = self.images
             cell.viewModel = MemoAddPhotoCellViewModel(images: images)
             return cell
         case .title:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddTitleCell.self),
-                                                     for: indexPath) as! MemoAddTitleCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddTitleCell.self),
+                                                           for: indexPath) as? MemoAddTitleCell else { return UITableViewCell() }
             cell.delegate = self
             return cell
         case .content:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddContentCell.self),
-                                                     for: indexPath) as! MemoAddContentCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoAddContentCell.self),
+                                                           for: indexPath) as? MemoAddContentCell else { return UITableViewCell() }
             cell.delegate = self
             return cell
         default :
@@ -350,9 +359,9 @@ extension MemoAddController: UITableViewDelegate {
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0, 1:
-            return 72
+            return UI.defaultHeight
         default:
-            return 500
+            return UI.contentsCellHeight
         }
     }
     
@@ -361,7 +370,7 @@ extension MemoAddController: UITableViewDelegate {
 // MARK:- TextField & TextView Delegate
 // MemoAddController want receive text values from tableView.
 
-extension MemoAddController: TextFieldDelegate, TextViewDelegate {
+extension MemoAddController: MemoAddTitleCellDelegate, MemoAddContentCellDelegate {
     
     func sendDataFromTF(text: String) {
         self.memoTitle = text

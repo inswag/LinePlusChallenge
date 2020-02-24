@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TextFieldDelegate: class {
+protocol MemoAddTitleCellDelegate: class {
     func sendDataFromTF(text: String)
 }
 
@@ -16,7 +16,7 @@ class MemoAddTitleCell: TableViewCell {
     
     // MARK:- Properties
     
-    weak var delegate: TextFieldDelegate?
+    weak var delegate: MemoAddTitleCellDelegate?
     
     // MARK:- UI Properties
     
@@ -27,7 +27,7 @@ class MemoAddTitleCell: TableViewCell {
         textField.textColor = .black
         textField.backgroundColor = UIColor.white
         textField.borderStyle = .none
-//        textField.font = Tools.font.systemFont(size: 14)
+        textField.font = Tools.font.appleSDGothicNeoBold(size: 18)
         textField.addTarget(self,
                             action: #selector(actionInput),
                             for: .editingChanged)
@@ -56,7 +56,7 @@ class MemoAddTitleCell: TableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     internal override func setupUIComponents() {
         [titleTextField, borderView].forEach {

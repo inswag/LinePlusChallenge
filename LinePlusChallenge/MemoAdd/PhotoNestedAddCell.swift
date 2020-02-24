@@ -18,7 +18,7 @@ class PhotoNestedAddCell: CollectionViewCell {
 
     lazy var typeButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Add", for: .normal)
+        btn.setImage(UIImage(named: "add_icon"), for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.layer.borderWidth = 1
         btn.layer.borderColor = UIColor.black.cgColor
@@ -42,12 +42,14 @@ class PhotoNestedAddCell: CollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK:- UI Methods
+    
     override func setupUIComponents() {
         [typeButton].forEach {
             self.addSubview($0)
         }
     }
-    
+
     override func setupUILayout() {
         typeButton.snp.makeConstraints {
             $0.width.height.equalTo(48)

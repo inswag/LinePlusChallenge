@@ -12,6 +12,13 @@ import YPImagePicker // https://github.com/Yummypets/YPImagePicker
 
 class MemoModifyController: ViewController {
     
+    // MARK:- Constant
+    
+    struct UI {
+        static let defaultHeight: CGFloat = 72
+        static let contentsHeight: CGFloat = 500
+    }
+    
     // MARK:- Properties
     
     let navigator: Navigator
@@ -62,6 +69,8 @@ class MemoModifyController: ViewController {
         return tv
     }()
     
+    // Navigation Items
+    
     let memoTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Editing.."
@@ -70,6 +79,19 @@ class MemoModifyController: ViewController {
         return label
     }()
     
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "back_icon")?.withRenderingMode(.alwaysOriginal),
+                        for: .normal)
+        button.addTarget(self, action: #selector(actionBack), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func actionBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    lazy var backBarButton = UIBarButtonItem(customView: backButton)
     lazy var completeButton = UIBarButtonItem(title: "Save",
                                               style: .plain,
                                               target: self,
@@ -130,6 +152,7 @@ class MemoModifyController: ViewController {
     // MARK:- UI Methods
     
     override func setupUIComponents() {
+        self.navigationItem.leftBarButtonItem = backBarButton
         self.navigationItem.rightBarButtonItem = completeButton
         self.navigationItem.titleView = memoTitleLabel
         
@@ -225,7 +248,6 @@ extension MemoModifyController {
         present(libraryPicker, animated: true, completion: nil)
         
         libraryPicker.didFinishPicking { [unowned libraryPicker] items, cancelled in
-            
             for item in items {
                 switch item {
                 case .photo(let photo):
@@ -234,45 +256,40 @@ extension MemoModifyController {
                     print(video)
                 }
             }
-            
-            self.tableView.reloadData()
+            let indexPath = NSIndexPath(row: 0, section: 0)
+            self.tableView.reloadRows(at: [(indexPath as IndexPath)],
+                                      with: .none)
+//            self.tableView.reloadData()
             self.notiCenter.post(name: NSNotification.Name("requestReload"),
                                  object: nil)
-            libraryPicker.dismiss(animated: true, completion: nil)
+            libraryPicker.dismiss(animated: true,
+                                  completion: nil)
         }
-        
-        
     }
     
     fileprivate func actionCamera(alert: UIAlertAction!) {
         var config = YPImagePickerConfiguration()
         config.screens = [.photo]
         let picker = YPImagePicker(configuration: config)
-        
         present(picker, animated: true, completion: nil)
         
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
                 self.images.append(photo.image)
             }
-            
             self.tableView.reloadData()
             self.notiCenter.post(name: NSNotification.Name("requestReload"),
                                  object: nil)
-            
             picker.dismiss(animated: true)
         }
-        
     }
     
     fileprivate func actionURL(alert: UIAlertAction!) {
         let alert = UIAlertController(title: "외부 URL로 가져오기", message: "아래에 주소를 넣어주세요", preferredStyle: .alert)
         alert.addTextField { $0.placeholder = "URL" }
-        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK",
                                       style: .default) { (_) in
-                                        
                                         if let string = alert.textFields?[0].text {
                                             if !string.isEmpty {
                                                 self.handleSuccess(string: string)
@@ -281,9 +298,7 @@ extension MemoModifyController {
                                             }
                                         }
         })
-        
         present(alert, animated: true)
-        
     }
     
     fileprivate func handleStringError() {
@@ -334,20 +349,20 @@ extension MemoModifyController: UITableViewDataSource {
         
         switch MemoModifyControllerViewModel.CellType(rawValue: indexPath.row) {
         case .photo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyPhotoCell.self),
-                                                     for: indexPath) as! MemoModifyPhotoCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyPhotoCell.self),
+                                                           for: indexPath) as? MemoModifyPhotoCell else { return UITableViewCell() }
             let images = self.images
             cell.viewModel = MemoAddPhotoCellViewModel(images: images)
             return cell
         case .title:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyTitleCell.self),
-                                                     for: indexPath) as! MemoModifyTitleCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyTitleCell.self),
+                                                           for: indexPath) as? MemoModifyTitleCell else { return UITableViewCell() }
             cell.delegate = self
             cell.viewModel = MemoModifyTitleCellViewModel(contents: memo)
             return cell
         case .content:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyContentCell.self),
-                                                     for: indexPath) as! MemoModifyContentCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MemoModifyContentCell.self),
+                                                           for: indexPath) as? MemoModifyContentCell else { return UITableViewCell() }
             cell.delegate = self
             cell.viewModel = MemoModifyContentCellViewModel(contents: memo)
             return cell
@@ -366,9 +381,9 @@ extension MemoModifyController: UITableViewDelegate {
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0, 1:
-            return 72
+            return UI.defaultHeight
         default:
-            return 500
+            return UI.contentsHeight
         }
     }
     

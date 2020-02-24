@@ -1,5 +1,5 @@
 //
-//  PhotoNestedCellViewModel.swift
+//  DetailPhotoNestedCellViewModel.swift
 //  LinePlusChallenge
 //
 //  Created by Insu Park on 2020/02/22.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoNestedCellViewModel {
+class DetailPhotoNestedCellViewModel {
     
     // MARK:- Properties
     
@@ -16,8 +16,8 @@ class PhotoNestedCellViewModel {
     
     // MARK:- Initialize
     
-    init(photo: UIImage) {
-        self.photo = photo
+    init(images: UIImage) {
+        self.photo = images
     }
     
 }

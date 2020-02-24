@@ -26,7 +26,6 @@ class MemoDetailControllerViewModel {
     
     lazy var memoDAO = MemoDAO()    // Provider
     var memo: MemoData?             // Container
-    
     let indexPath: IndexPath
     
     // MARK:- Initialize
@@ -50,6 +49,8 @@ class MemoDetailControllerViewModel {
             print("failure")
         }
     }
+    
+    // MARK:- Table View Data Source Methods
     
     func numberOfRowsInSection() -> Int {
         return CellType.totalCount.rawValue

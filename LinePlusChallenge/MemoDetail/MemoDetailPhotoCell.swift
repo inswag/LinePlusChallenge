@@ -30,8 +30,8 @@ class MemoDetailPhotoCell: TableViewCell {
         cv.setCollectionViewLayout(layout, animated: true)
         cv.dataSource = self
         cv.delegate = self
-        cv.register(PhotoNestedCell.self,
-                    forCellWithReuseIdentifier: String(describing: PhotoNestedCell.self))
+        cv.register(DetailPhotoNestedCell.self,
+                    forCellWithReuseIdentifier: String(describing: DetailPhotoNestedCell.self))
         return cv
     }()
     
@@ -52,7 +52,7 @@ class MemoDetailPhotoCell: TableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     override func setupUIComponents() {
         backgroundColor = .white
@@ -87,6 +87,8 @@ class MemoDetailPhotoCell: TableViewCell {
 
 }
 
+// MARK:- Collection View Data Source
+
 extension MemoDetailPhotoCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
@@ -96,8 +98,9 @@ extension MemoDetailPhotoCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PhotoNestedCell.self), for: indexPath) as! PhotoNestedCell
-        cell.viewModel = PhotoNestedCellViewModel(photo: viewModel.images[indexPath.item])
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: DetailPhotoNestedCell.self),
+                                                            for: indexPath) as? DetailPhotoNestedCell else { return UICollectionViewCell() }
+        cell.viewModel = DetailPhotoNestedCellViewModel(images: viewModel.images[indexPath.item])
         return cell
     }
     
@@ -107,9 +110,13 @@ extension MemoDetailPhotoCell: UICollectionViewDataSource {
     
 }
 
+// MARK:- Collection View Delegate Flow Layout
+
 extension MemoDetailPhotoCell: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.contentView.frame.width
         return CGSize(width: width, height: width)
     }

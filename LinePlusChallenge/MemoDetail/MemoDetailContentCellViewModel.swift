@@ -18,5 +18,4 @@ class MemoDetailContentCellViewModel {
         self.contents = contents.contents
     }
     
-    
 }

@@ -45,14 +45,14 @@ final class MemoListController: ViewController {
         return label
     }()
     
-    
-    lazy var newMemoButton = UIBarButtonItem(title: "New",
+    lazy var newMemoButton = UIBarButtonItem(image: UIImage(named: "new_icon")?.withRenderingMode(.alwaysOriginal),
                                              style: .plain,
                                              target: self,
                                              action: #selector(actionNewMemo))
     
     @objc func actionNewMemo() {
-        self.navigationController?.pushViewController(navigator.get(segue: .memoAdd), animated: true)
+        self.navigationController?.pushViewController(navigator.get(segue: .memoAdd),
+                                                      animated: true)
     }
     
     // MARK:- Initialize
@@ -156,9 +156,6 @@ extension MemoListController: UITableViewDelegate {
             }
         }
     }
-    
-    
-    
     
 }
 

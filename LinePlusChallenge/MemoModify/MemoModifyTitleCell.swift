@@ -33,7 +33,7 @@ class MemoModifyTitleCell: TableViewCell {
         textField.textColor = .black
         textField.backgroundColor = UIColor.white
         textField.borderStyle = .none
-//        textField.font = Tools.font.systemFont(size: 14)
+        textField.font = Tools.font.appleSDGothicNeoBold(size: 18)
         textField.addTarget(self,
                             action: #selector(actionInput),
                             for: .editingChanged)
@@ -62,7 +62,7 @@ class MemoModifyTitleCell: TableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     internal override func setupUIComponents() {
         [titleTextField, borderView].forEach {

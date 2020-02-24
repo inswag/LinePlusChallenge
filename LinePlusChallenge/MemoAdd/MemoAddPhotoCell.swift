@@ -47,9 +47,7 @@ class MemoAddPhotoCell: TableViewCell {
                   reuseIdentifier: String?) {
         super.init(style: .default,
                    reuseIdentifier: String(describing: MemoAddController.self))
-        
         addObserver()
-        
     }
     
     deinit {
@@ -90,8 +88,14 @@ class MemoAddPhotoCell: TableViewCell {
     }
     
     fileprivate func addObserver() {
-        notiCenter.addObserver(self, selector: #selector(actionReloadByAdd), name: NSNotification.Name(rawValue: "requestReload"), object: nil)
-        notiCenter.addObserver(self, selector: #selector(actionReloadByDelete), name: NSNotification.Name(rawValue: "requestDelete"), object: nil)
+        notiCenter.addObserver(self,
+                               selector: #selector(actionReloadByAdd),
+                               name: NSNotification.Name(rawValue: "requestReload"),
+                               object: nil)
+        notiCenter.addObserver(self,
+                               selector: #selector(actionReloadByDelete),
+                               name: NSNotification.Name(rawValue: "requestDelete"),
+                               object: nil)
     }
     
     @objc func actionReloadByAdd() {
@@ -101,7 +105,6 @@ class MemoAddPhotoCell: TableViewCell {
     @objc func actionReloadByDelete() {
         self.collectionView.reloadData()
     }
-    
     
 }
 

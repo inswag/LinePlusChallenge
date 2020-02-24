@@ -48,7 +48,7 @@ class MemoModifyContentCell: TableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:- Methods
+    // MARK:- UI Methods
     
     internal override func setupUIComponents() {
         self.backgroundColor = .white
@@ -69,6 +69,8 @@ class MemoModifyContentCell: TableViewCell {
     }
 
 }
+
+// MARK:- TextView Delegate
 
 extension MemoModifyContentCell: UITextViewDelegate {
     

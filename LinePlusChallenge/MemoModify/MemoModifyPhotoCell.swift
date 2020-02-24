@@ -10,6 +10,14 @@ import UIKit
 
 class MemoModifyPhotoCell: TableViewCell {
 
+    // MARK:- Constant
+    
+    struct UI {
+        static let widthSizeForItemAt: CGFloat = 56
+        static let heightSizeForItemAt: CGFloat = 56
+        static let minimumLineSpacingForSectionAt: CGFloat = 8
+    }
+    
     // MARK:- Properties
     
     var viewModel: MemoAddPhotoCellViewModel!
@@ -46,9 +54,7 @@ class MemoModifyPhotoCell: TableViewCell {
                   reuseIdentifier: String?) {
         super.init(style: .default,
                    reuseIdentifier: String(describing: MemoModifyController.self))
-        
         addObserver()
-        
     }
     
     deinit {
@@ -90,10 +96,18 @@ class MemoModifyPhotoCell: TableViewCell {
     }
     
     fileprivate func addObserver() {
-        notiCenter.addObserver(self, selector: #selector(actionReloadByAdd), name: NSNotification.Name(rawValue: "requestReload"), object: nil)
-        notiCenter.addObserver(self, selector: #selector(actionReloadByDelete), name: NSNotification.Name(rawValue: "requestDelete"), object: nil)
-        notiCenter.addObserver(self, selector: #selector(actionReloadByFetching), name: NSNotification.Name(rawValue: "requestFetch"), object: nil)
-
+        notiCenter.addObserver(self,
+                               selector: #selector(actionReloadByAdd),
+                               name: NSNotification.Name(rawValue: "requestReload"),
+                               object: nil)
+        notiCenter.addObserver(self,
+                               selector: #selector(actionReloadByDelete),
+                               name: NSNotification.Name(rawValue: "requestDelete"),
+                               object: nil)
+        notiCenter.addObserver(self,
+                               selector: #selector(actionReloadByFetching),
+                               name: NSNotification.Name(rawValue: "requestFetch"),
+                               object: nil)
     }
     
     @objc func actionReloadByAdd() {
@@ -121,8 +135,8 @@ extension MemoModifyPhotoCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.item {
-        case 0:
+        switch MemoModifyPhotoCellViewModel.CellType(rawValue: indexPath.row) {
+        case .add:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ModifyPhotoNestedAddCell.self),
                                                                 for: indexPath) as? ModifyPhotoNestedAddCell else { return UICollectionViewCell() }
             return cell
@@ -145,11 +159,11 @@ extension MemoModifyPhotoCell: UICollectionViewDataSource {
 extension MemoModifyPhotoCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 56, height: 56)
+        return CGSize(width: UI.widthSizeForItemAt, height: UI.heightSizeForItemAt)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        return UI.minimumLineSpacingForSectionAt
     }
     
 }
