@@ -13,11 +13,7 @@ class MemoDetailPhotoCell: TableViewCell {
 
     // MARK:- Properties
     
-    var viewModel: MemoDetailPhotoCellViewModel! {
-        didSet {
-            progressView.setProgress(Float(0.0 / collectionView.frame.width) + 1 / Float(viewModel.images.count), animated: false)
-        }
-    }
+    var viewModel: MemoDetailPhotoCellViewModel!
     
     // MARK:- UI Properties
     
@@ -35,12 +31,19 @@ class MemoDetailPhotoCell: TableViewCell {
         return cv
     }()
     
-    lazy var progressView: UIProgressView = {
-        let pgView = UIProgressView()
-        pgView.progressTintColor = UIColor.white
-        pgView.trackTintColor = UIColor.black
-        return pgView
+    lazy var noticeButton: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "swipe_icon"), for: .normal)
+        btn.backgroundColor = .white
+        btn.contentMode = .scaleAspectFit
+        btn.layer.cornerRadius = 25
+        btn.addTarget(self, action: #selector(actionHidden), for: .touchUpInside)
+        return btn
     }()
+    
+    @objc func actionHidden() {
+        self.noticeButton.isHidden = true
+    }
     
     // MARK:- Initialize
     
@@ -63,7 +66,7 @@ class MemoDetailPhotoCell: TableViewCell {
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         
-        [collectionView, progressView].forEach {
+        [collectionView, noticeButton].forEach {
             self.addSubview($0)
         }
         
@@ -77,11 +80,11 @@ class MemoDetailPhotoCell: TableViewCell {
             m.bottom.equalToSuperview()
         }
         
-        self.progressView.snp.makeConstraints { (m) in
-            m.leading.equalToSuperview().offset(24)
-            m.trailing.equalToSuperview().offset(-24)
-            m.bottom.equalToSuperview().offset(-24)
-            m.height.equalTo(4)
+        self.noticeButton.snp.makeConstraints { (m) in
+            m.centerX.equalToSuperview()
+            m.bottom.equalToSuperview().offset(-8)
+            m.width.equalTo(50)
+            m.height.equalTo(50)
         }
     }
 
@@ -102,10 +105,6 @@ extension MemoDetailPhotoCell: UICollectionViewDataSource {
                                                             for: indexPath) as? DetailPhotoNestedCell else { return UICollectionViewCell() }
         cell.viewModel = DetailPhotoNestedCellViewModel(images: viewModel.images[indexPath.item])
         return cell
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        progressView.progress = Float((scrollView.contentOffset.x / collectionView.frame.width) + 1) / Float(viewModel.images.count)
     }
     
 }

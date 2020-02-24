@@ -14,18 +14,14 @@ final class Application: NSObject {
     
     var window: UIWindow?
     var navigator: Navigator
-    var memolist: [MemoData]
     
     private override init() {
         self.navigator = Navigator()
-        self.memolist = [MemoData]()
         super.init()
     }
     
     func presentInitialScreen(in window: UIWindow) {
         self.window = window
-        
-        window.rootViewController = navigator.get(segue: .memoList
-        )
+        window.rootViewController = navigator.get(segue: .memoList)
     }
 }
